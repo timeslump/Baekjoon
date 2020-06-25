@@ -1,0 +1,43 @@
+#include<stdio.h>
+#include<math.h>
+int count = 0;
+int size;
+int A[15];
+
+bool possible(int row){
+	for(int i = 0; i < row; i ++){
+		if(abs(A[i] - A[row]) == abs(i - row) || A[row] == A[i])
+			return false;
+	}
+	return true;
+}
+
+
+void nQueen(int row){
+	int i = 0;
+
+	if(row == size){
+		count ++;
+	}
+	else{
+		for(i = 0; i < size; i++){
+			A[row] = i;
+			if(possible(row)){
+				nQueen(row + 1);
+			}
+		}
+	}
+}
+
+
+
+
+int main(){
+	int i = 0;
+	scanf("%d",&size);
+
+	int A[size];
+	nQueen(0);
+
+	printf("%d", count);
+}
