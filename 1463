@@ -1,0 +1,39 @@
+#include<iostream>
+
+using namespace std;
+
+int main(){
+	
+	int N;
+	int check;
+	cin >> N;
+	int dp[N + 1] = {0,};
+	for(int i = 2; i < N + 1; i++){
+		check = dp[i - 1];
+		if(i == 2)
+			dp[i] = 1;
+		if(i % 6 == 0){
+			if(dp[i/3] >= dp[i/2])
+				check = dp[i/2];
+			else
+				check = dp[i/3];
+			if(check >= dp[i - 1])
+				check = dp[i -1];
+			dp[i] = check + 1;
+		}
+		else if(i % 2 == 0){
+			if(check > dp[i/2])
+				check = dp[i/2];
+			dp[i] = check + 1;
+		}
+		else if(i % 3 == 0){
+			if(check > dp[i/3])
+				check = dp[i/3];
+			dp[i] = check + 1;
+		}
+		else
+			dp[i] = check + 1;
+	}
+	
+	cout << dp[N];
+}
