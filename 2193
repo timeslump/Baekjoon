@@ -1,0 +1,23 @@
+#include<iostream>
+
+#define MAX_SIZE 91
+using namespace std;
+
+unsigned long long int dp[MAX_SIZE][2] = {0, };
+	
+
+int main(){
+	
+	int N;
+	
+	cin >> N;	
+	
+	dp[1][1] = 1;
+	
+	for(int i = 2; i < MAX_SIZE; i++){
+		dp[i][0] = dp[i - 1][0] + dp[i - 1][1];
+		dp[i][1] = dp[i - 1][0];
+	}
+
+	cout << dp[N][0] + dp[N][1];
+}
