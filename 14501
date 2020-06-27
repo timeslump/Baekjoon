@@ -1,0 +1,37 @@
+#include<iostream>
+
+#define MAX_SIZE 100
+using namespace std;
+
+
+int T[MAX_SIZE + 1] = {0, };
+int P[MAX_SIZE + 1] = {0, };
+int dp[MAX_SIZE + 1] = {0, };
+int max(int a, int b){
+	if(a > b){
+		return a;
+	}
+	else{
+		return b;
+	}
+}
+
+int main(){
+	
+	int N;
+	
+	cin >> N;	
+	
+	for(int i = 1; i < N + 1; i++){
+		cin >> T[i] >> P[i];
+	}
+	
+	for(int i = 1; i <=  N; i++){
+		if(dp[i] > dp[i + 1])
+			dp[i + 1] = dp[i];
+	
+		if(dp[i + T[i]] < dp[i] + P[i])
+			dp[i + T[i]] = dp[i] + P[i];
+		}
+	cout << dp[N + 1];
+}
