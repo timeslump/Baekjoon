@@ -1,0 +1,39 @@
+#include<iostream>
+using namespace std;
+
+int minn = 100000000;
+int maxx = -100000000;
+int N;
+int arr[11];
+
+
+void find(int plus, int min, int mul, int div, int count, int i){
+	if(i == N){
+		if(count > maxx)
+			maxx = count;
+		if(count < minn)
+			minn = count;
+		return;
+	}
+	if(plus > 0)
+		find(plus - 1, min, mul, div, count + arr[i], i + 1);
+	if(min > 0)
+		find(plus, min - 1, mul, div, count - arr[i], i + 1);
+	if(mul > 0)
+		find(plus, min, mul - 1, div, count * arr[i], i + 1);
+	if(div > 0)
+		find(plus, min, mul, div - 1, count / arr[i], i + 1);
+}
+int main(){
+
+	int ans;
+	cin >> N;
+	for(int i = 0; i < N; i++)
+		cin >> arr[i];
+	int op[4];
+	for(int i = 0; i < 4; i++)
+		cin >> op[i];
+    find(op[0], op[1], op[2], op[3], arr[0], 1);
+    cout << maxx << endl;
+    cout << minn << endl;
+}
