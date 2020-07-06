@@ -1,0 +1,51 @@
+#include <iostream>
+#include <algorithm>
+#include <cmath>
+#include <stack>
+#include <queue>
+#include <vector>
+
+using namespace std;
+
+int dp[751][751][2] = {0, };
+
+int main() {
+    int Row;
+    int Column;
+    cin >> Row >> Column;
+    int MaxSize = 0;
+    Row = Row + 1;
+    Column = Column + 1;
+
+    for (int i = 1; i < Row; i++)
+        for (int j = 1; j < Column; j++) {
+            scanf("%1d", &dp[i][j][0]);
+            dp[i][j][1] = dp[i][j][0];
+        }
+
+    for (int i = 1; i < Row; i++)
+        for (int j = 1; j < Column; j++) {
+            if (dp[i][j][0] == 1)
+                dp[i][j][0] = dp[i - 1][j - 1][0] + 1;
+            if (dp[i][j][1] == 1)
+                dp[i][j][1] = dp[i - 1][j + 1][1] + 1;
+        }
+
+
+    int Size;
+    for (int i = 1; i < Row; i++)
+        for (int j = 1; j < Column; j++) {
+            int SizeRow = dp[i][j][0];
+            int SizeCol = dp[i][j][1];
+            if(SizeRow >= SizeCol)
+                Size = SizeCol;
+            else
+                Size = SizeRow;
+            for(int k = 1; k <= Size; k++){
+                if(dp[i - (k - 1)][j - (k - 1)][1] >= k && dp[i - (k - 1)][j + k - 1][0] >= k)
+                    if(k >= MaxSize)
+                        MaxSize = k;
+            }
+        }
+    cout << MaxSize << endl;
+}
