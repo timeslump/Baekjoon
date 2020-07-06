@@ -1,0 +1,13 @@
+#include<iostream>
+#include <algorithm>
+#include<cmath>
+using namespace std;
+
+
+
+int main(){
+	long long A, B, V;
+	cin >> A >> B >> V;
+	
+	cout << (V - B - 1)/(A - B) + 1 << endl;
+}
