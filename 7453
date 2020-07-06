@@ -1,0 +1,94 @@
+#include <iostream>
+#include <algorithm>
+#include <cmath>
+#include <stack>
+#include <queue>
+#include <vector>
+
+#define MAX 4000
+using namespace std;
+
+
+long long counter = 0;
+long long sum = 0;
+int InputSize;
+int Firstgroup[4000 * 4000];
+int Secondgroup[4000 * 4000];
+int idx = 0;
+
+int lower_bound(int n){
+    int left = 0;
+    int right = idx;
+    while(left < right){
+        int mid = (left + right) / 2;
+        if(Secondgroup[mid] >= n)
+            right = mid;
+        else left = mid + 1;
+    }
+    return right;
+}
+
+int upper_bound(int n){
+    int left = 0;
+    int right = idx;
+    while(left < right){
+        int mid = (left + right) / 2;
+        if(Secondgroup[mid] > n)
+            right = mid;
+        else left = mid + 1;
+    }
+    return right;
+}
+int CheckByBinarySearch(int key, int size){
+    int n = 0;
+    int start = 0;
+    int end = size - 1;
+    int mid;
+    int k = 0;
+    while(end - start >= 0){
+        mid = (start + end) / 2;
+        if(Secondgroup[mid] == key){
+            n = 1;
+            while(Secondgroup[mid + ++k] == key)
+                n++;
+            k = 0;
+            while(Secondgroup[mid + --k] == key)
+                n++;
+            return n;
+        }
+        else if(Secondgroup[mid] > key)
+            end = mid - 1;
+        else
+            start = mid + 1;
+    }
+    return 0;
+}
+
+int main() {
+    ios_base::sync_with_stdio(false);
+    cin >> InputSize;
+    long long Inputnum[4][InputSize] = {0, };
+    for (int i = 0; i < InputSize; i++)
+        cin >> Inputnum[0][i] >> Inputnum[1][i] >> Inputnum[2][i] >> Inputnum[3][i];
+
+
+
+    for (int i = 0; i < InputSize; i++){
+        for (int j = 0; j < InputSize; j++){
+            Firstgroup[idx] = (Inputnum[0][i] + Inputnum[1][j]);
+            Secondgroup[idx++] = (Inputnum[2][i] + Inputnum[3][j]);
+        }
+    }
+
+    sort(Secondgroup, Secondgroup + idx);
+
+    int n = 0;
+
+
+    for(int i = 0; i < idx; i++){
+        if(Secondgroup[lower_bound(-Firstgroup[i])] == -Firstgroup[i])
+            counter += upper_bound(-Firstgroup[i]) - lower_bound(-Firstgroup[i]);
+    }
+
+    cout << counter << endl;
+}
