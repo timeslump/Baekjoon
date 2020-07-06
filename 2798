@@ -1,0 +1,25 @@
+#include <iostream>
+#include <vector>
+#include <bits/stdc++.h>
+using namespace std;
+int InputNum, MaxValue;
+int Approach = 0;
+int InputArr[100] = {0, };
+
+int main() {
+    ios_base::sync_with_stdio(false);
+    cin.tie(NULL);
+    cin >> InputNum >> MaxValue;
+    int sum;
+
+    for(int i = 0; i < InputNum; i++)
+        cin >> InputArr[i];
+    for (int i = 0; i < InputNum - 2; i++)
+        for (int j = i + 1; j < InputNum - 1; j++)
+            for (int k = j + 1; k < InputNum; k++) {
+                sum = InputArr[i] + InputArr[j] + InputArr[k];
+                if (MaxValue >= sum && sum > Approach)
+                    Approach = sum;
+            }
+    printf("%d", Approach);
+}
