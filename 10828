@@ -1,0 +1,41 @@
+#include<iostream>
+#include<vector>
+#include<stack>
+#include<algorithm>
+#include<string>
+using namespace std;
+
+
+
+int main(){
+    int TestCase;
+    cin >> TestCase;
+    stack<int> s;
+    while(TestCase--){
+        string command;
+        cin >> command;
+        if(command[1]  == 'u') {
+            int num;
+            cin >> num;
+            s.push(num);
+        }// push
+        else if(command[1]  == 'o') {
+            if(s.empty()) {
+                cout << -1 << endl;
+                continue;
+            }
+            cout << s.top() << endl;
+            if(command[0] == 'p')
+                s.pop();
+        }// pop
+        else if(command[1]  == 'i') {
+            cout << s.size() << endl;
+        }// size
+        else if(command[1]  == 'm') {
+            if (s.empty())
+                cout << 1 << endl;
+            else
+                cout << 0 << endl;
+        }
+    }
+}
