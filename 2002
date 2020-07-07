@@ -1,0 +1,51 @@
+#include <iostream>
+#include <vector>
+#include <cmath>
+#include <algorithm>
+#include<string>
+#include <bits/stdc++.h>
+
+#define MAX 123456
+using namespace std;
+
+int N;
+int PrimeNumber[MAX * 2 + 1] = {0 ,};
+
+int main() {
+    queue<string> Input;
+    queue<string> Output;
+    vector<string> Overtake;
+    int NumberofCar;
+    cin >> NumberofCar;
+    int cnt = 0;
+    for(int i = 0; i < NumberofCar; i++){
+        string tmp;
+        cin >> tmp;
+        Input.push(tmp);
+    }
+    for(int i = 0; i < NumberofCar; i++){
+        string tmp;
+        cin >> tmp;
+        Output.push(tmp);
+    }
+    while(!Output.empty()){
+        string temp = Input.front();
+        if(!Overtake.empty() ){
+            if(find(Overtake.begin(), Overtake.end(), temp) != Overtake.end()) {
+                Input.pop();
+                continue;
+            }
+        }
+        if(temp == Output.front()){
+            Input.pop();
+            Output.pop();
+            continue;
+        }
+        else{
+            cnt++;
+            Overtake.push_back(Output.front());
+            Output.pop();
+        }
+    }
+    cout << cnt << endl;
+}
