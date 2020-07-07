@@ -1,0 +1,42 @@
+#include <iostream>
+#include <vector>
+#include <cmath>
+#include <bits/stdc++.h>
+
+#define MAX 123456
+using namespace std;
+
+int N;
+int PrimeNumber[MAX * 2 + 1] = {0 ,};
+
+int main() {
+    ios_base::sync_with_stdio(false);
+    cin.tie(NULL);
+    cout.tie(NULL);
+
+
+    for(int i = 0; i < 2 * MAX + 1; i++){
+        PrimeNumber[i] = 1;
+    }
+    int LimitofMax = sqrt(2 * MAX + 1);
+    PrimeNumber[1] = 0;
+    for(int i = 2;  i < LimitofMax + 1; i++){
+        for(int j = i + 1; j < 2 * MAX + 1; j++){
+            if(j % i == 0 && PrimeNumber[j] == 1)
+                PrimeNumber[j] = 0;
+        }
+    }
+    cin >> N;
+
+    while(N){
+        int count = 0;
+        for(int i = N + 1; i <= 2 * N; i++){
+            if(PrimeNumber[i] == 1){
+                count++;
+            }
+        }
+        printf("%d\n", count);
+        cin >> N;
+    }
+    return 0;
+}
