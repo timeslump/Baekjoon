@@ -1,0 +1,23 @@
+#include<iostream>
+#include <vector>
+using namespace std;
+
+int main(){
+    int N;
+    cin >> N;
+    vector<int> dp;
+    dp.push_back(400000);
+    for(int i = 0; i < N; i++){
+        int num;
+        cin >> num;
+        if(dp.back() < num){
+            dp.push_back(num);
+            continue;
+        }
+        else{
+            vector<int> :: iterator iter = lower_bound(dp.begin(),dp.end(), num);
+            dp[iter - dp.begin()] = num;
+        }
+    }
+    cout << dp.size() << endl;
+}
