@@ -1,0 +1,52 @@
+#include<iostream>
+#include<algorithm>
+#include <vector>
+using namespace std;
+int L, C;
+vector<char> Input;
+int main(){
+
+    cin >> L >> C;
+    for(int i = 0; i < C; i++){
+        char tmp;
+        cin >> tmp;
+        Input.push_back(tmp);
+    }
+    sort(Input.begin(),Input.end());
+
+    vector<int> ind;
+
+    for(int i = 0; i < L; i++)
+        ind.push_back(0);
+
+    for(int i=0; i< C - L; i++){
+        ind.push_back(1);
+    }
+
+    do{
+        int consonant = 0, vowel = 0;
+        for(int i=0; i<ind.size(); i++) {
+            if(ind[i] == 0){
+                switch(Input[i]){
+                    case 'a' :
+                    case 'e' :
+                    case 'i' :
+                    case 'o' :
+                    case 'u' :
+                        vowel++;
+                        break;
+                    default :
+                        consonant++;
+                }
+            }
+        }
+        if(vowel < 1 || consonant < 2)
+            continue;
+        for(int i=0; i<ind.size(); i++){
+            if(ind[i] == 0){
+                printf("%c", Input[i]);
+            }
+        }
+        printf("\n");
+    }while(next_permutation(ind.begin(), ind.end()));
+}
