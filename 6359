@@ -1,0 +1,24 @@
+#include<iostream>
+using namespace std;
+
+
+int main(){
+    int TestCase;
+    cin >> TestCase;
+    while(TestCase--){
+        int cnt =0;
+        int dp[101] = {0,};
+        int n;
+        cin >> n;
+        for(int i = 1; i <= n; i++)
+            for(int j = 1; i * j <= n; j++){
+                if(dp[i * j] == 1)
+                    dp[i * j] = 0;
+                else
+                    dp[i * j] =1;
+            }
+        for(int i = 1; i <= n; i++)
+            cnt += dp[i];
+        cout << cnt << endl;
+    }
+}
