@@ -1,0 +1,28 @@
+#include<iostream>
+#include<algorithm>
+#include <vector>
+
+using namespace std;
+int main(){
+    int N;
+    cin >> N;
+    vector<int> weight;
+
+    int tmp;
+    for(int i = 0; i < N; i++){
+        cin >> tmp;
+        weight.push_back(tmp);
+    }
+
+    sort(weight.begin(), weight.end());
+
+    long long sum = 0;
+
+    for(int i = 0; i < N; i++){
+        if(sum + 2 <= weight[i])
+            break;
+        sum += weight[i];
+    }
+
+    cout << sum + 1 << endl;
+}
