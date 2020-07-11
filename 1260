@@ -1,0 +1,56 @@
+#include<iostream>
+#include<algorithm>
+#include <queue>
+#include <vector>
+#include <string>
+using namespace std;
+int Map[1001][1001] = {0, };
+bool check[1001];
+int N,M, StartPoint;
+
+void reset(){
+    for(int i = 1; i < 1001; i++)
+        check[i] = true;
+}
+
+void dfs(int now){
+    cout << now << " ";
+    check[now] = false;
+    for(int i = 1; i <= N; i++){
+        if(Map[now][i] == 1 && check[i])
+            dfs(i);
+    }
+}
+
+void bfs(int now){
+    queue<int> q;
+    q.push(now);
+    check[now] = false;
+    while(!q.empty()){
+        cout << now << " ";
+        for(int i = 1; i <= N; i++){
+            if(Map[now][i] == 1 && check[i]){
+                q.push(i);
+                check[i] = false;
+            }
+        }
+        q.pop();
+        now = q.front();
+    }
+}
+int main(){
+    cin >> N >> M >> StartPoint;
+    int start, end;
+    for(int i = 0; i < M; i++){
+        cin >> start >> end;
+        Map[start][end] = 1;
+        Map[end][start] = 1;
+    }
+
+    reset();
+    dfs(StartPoint);
+    cout << endl;
+    reset();
+    bfs(StartPoint);
+    cout << endl;
+}
