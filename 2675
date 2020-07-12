@@ -1,0 +1,24 @@
+#include <cstdio>
+#include <iostream>
+#include <string>
+#include <vector>
+#include <algorithm>
+#include <stack>
+
+using namespace std;
+
+int main(){
+    int N;
+    cin >> N;
+    while(N--){
+        int K;
+        string temp;
+        cin >> K;
+        cin >> temp;
+        for(int i = 0; i < temp.size(); i++){
+            for(int j = 0; j < K; j++)
+                cout << temp[i];
+        }
+        cout << endl;
+    }
+}
