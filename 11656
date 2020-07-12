@@ -1,0 +1,28 @@
+#include <cstdio>
+#include <iostream>
+#include <string>
+#include <vector>
+#include <algorithm>
+#include <stack>
+
+using namespace std;
+
+int cmp(string s1, string s2)
+{
+    return s1 < s2;
+}
+
+int main(){
+    string S;
+    cin >> S;
+    vector<string> dict;
+    for(int i = 0; i < S.size(); i++){
+        string temp;
+        temp = S.substr(i);
+        dict.push_back(temp);
+    }
+    sort(dict.begin(), dict.end(), cmp);
+    for(int i = 0; i < S.size(); i++){
+        cout << dict[i] << endl;
+    }
+}
