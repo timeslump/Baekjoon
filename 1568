@@ -1,0 +1,23 @@
+#include <cstdio>
+#include <iostream>
+#include <string>
+#include <vector>
+#include <algorithm>
+#include <stack>
+
+using namespace std;
+
+int main(){
+    long long N;
+    cin >> N;
+    int cnt = 0;
+    long long num = 1;
+    while(N >= 0){
+        if(num > N)
+            num = 1;
+        N = N - num;
+        cnt++;
+        num++;
+    }
+    cout << cnt - 1 << endl;
+}
