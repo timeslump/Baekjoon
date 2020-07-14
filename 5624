@@ -1,0 +1,35 @@
+#include <cstdio>
+#include <iostream>
+#include <queue>
+#include <stack>
+#include <string>
+#include <algorithm>
+#include <cmath>
+#include <stdlib.h>
+
+using namespace std;
+
+int hashf[400001] = {0, };
+int main(){
+    int n;
+    cin >> n;
+    vector<int> input;
+    for(int i = 0; i < n; i++){
+        int tmp;
+        cin >> tmp;
+        input.push_back(tmp);
+    }
+    int cnt = 0;
+    for(int i = 0; i < n; i++){
+        bool isTrue = false;
+        for(int j = 0; j < i; j++){
+            if(hashf[input[i] - input[j] + 200000] == 1)
+                isTrue = true;
+        }
+        for(int j = 0; j <= i; j++)
+            hashf[input[i] + input[j] + 200000] = 1;
+        if(isTrue)
+            cnt++;
+    }
+    cout << cnt << endl;
+}
