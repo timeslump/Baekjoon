@@ -1,0 +1,28 @@
+#include <cstdio>
+#include <iostream>
+#include <queue>
+#include <stack>
+#include <string>
+#include <algorithm>
+#include <cmath>
+#include <stdlib.h>
+
+using namespace std;
+
+int main(){
+    string n, m;
+    cin >> n >> m;
+    vector<int> nn, mm;
+    for(int i = 0; i < n.size(); i++){
+        nn.push_back(n[i] - '0');
+    }
+    for(int j = 0; j < m.size(); j++){
+        mm.push_back(m[j] - '0');
+    }
+    long long sum = 0;
+    for(int i = 0; i < nn.size(); i++){
+        for(int j = 0; j < mm.size(); j++)
+            sum += nn[i] * mm[j];
+    }
+    cout << sum << endl;
+}
