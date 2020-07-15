@@ -1,0 +1,82 @@
+
+#include <iostream>
+#include <queue>
+
+#include <string>
+#include <algorithm>
+#include <memory.h>
+
+
+using namespace std;
+
+int N;
+char Arr[100][100];
+bool Visited[100][100];
+
+int ans1 = 0;
+int ans2 = 0;
+
+int dx[] = {0, 0, -1, 1};
+int dy[] = {1, -1 ,0 ,0};
+
+void bfs(int a, int b){
+    queue<pair<int, int>> Q;
+    Q.push(make_pair(a,b));
+    Visited[a][b] = true;
+    while(!Q.empty()){
+        int x = Q.front().first;
+        int y = Q.front().second;
+        Q.pop();
+
+        for(int i = 0; i < 4; i++){
+            int nx = x + dx[i];
+            int ny = y + dy[i];
+            if (nx >= 0 && ny >= 0 && nx < N && ny < N){
+                if (Visited[nx][ny] == false){
+                    if (Arr[nx][ny] == Arr[x][y]){
+                        Visited[nx][ny] = true;
+                        Q.push(make_pair(nx, ny));
+                    }
+                }
+            }
+        }
+    }
+}
+
+int main(){
+    cin >> N;
+    for(int i = 0; i < N; i++)
+        for(int j = 0; j < N; j++){
+            cin >> Arr[i][j];
+            Visited[i][j] = false;
+        }
+    for (int i = 0; i < N; i++){
+        for (int j = 0; j < N; j++){
+            if (Visited[i][j] == false){
+                bfs(i,j);
+                ans1++;
+            }
+        }
+    }
+    memset(Visited, false, sizeof(Visited));
+
+    for (int i = 0; i < N; i++) {
+        for (int j = 0; j < N; j++) {
+            if (Arr[i][j] == 'G') {
+                Arr[i][j] = 'R';
+            }
+        }
+    }
+
+    for (int i = 0; i < N; i++){
+        for (int j = 0; j < N; j++){
+            if (Visited[i][j] == false){
+                bfs(i, j);
+                ans2++;
+            }
+        }
+    }
+
+    cout << ans1 << " " << ans2 << endl;
+}
+
