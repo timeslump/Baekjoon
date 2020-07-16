@@ -1,0 +1,27 @@
+
+#include <iostream>
+#include <queue>
+#include <iomanip>
+#include <string>
+#include <algorithm>
+#include <memory.h>
+
+
+using namespace std;
+
+int main(){
+    float SevenX, SevenY;
+    int n;
+    cin >> SevenX >> SevenY;
+    cin >> n;
+    float low = SevenX / SevenY;
+    while(n--){
+        float x, y;
+        cin >> x >> y;
+        float k = x / y;
+        if(low > k)
+            low = k;
+    }
+    low = low * 1000;
+    printf("%.2f\n",low);
+}
