@@ -1,0 +1,49 @@
+
+#include <iostream>
+#include <queue>
+#include <iomanip>
+#include <string>
+#include <algorithm>
+#include <memory.h>
+#include <cmath>
+
+
+using namespace std;
+
+char floors[100][100];
+int isClear[100][100] = {0, };
+
+int main(){
+    int n, m;
+    int cnt = 0;
+    cin >> n >> m;
+    for(int i = 0; i < n; i++){
+        string s;
+        cin >> s;
+        for(int j = 0; j < m; j++){
+            floors[i][j] = s[j];
+        }
+    }
+
+    for(int i = 0; i < n; i++){
+        for(int j = 0; j < m; j++){
+            if(isClear[i][j] == 0 && floors[i][j] == '-'){
+                cnt++;
+                int k = j;
+                while(floors[i][k] == '-'){
+                    isClear[i][k] = 1;
+                    k++;
+                }
+            }
+            if(isClear[i][j] == 0 && floors[i][j] == '|'){
+                cnt++;
+                int k = i;
+                while(floors[k][j] == '|'){
+                    isClear[k][j] = 1;
+                    k++;
+                }
+            }
+        }
+    }
+    cout << cnt << endl;
+}
