@@ -1,0 +1,99 @@
+#include <iostream>
+#include <string>
+#include <algorithm>
+#include <vector>
+#include <cmath>
+#include <stack>
+#include <memory.h>
+using namespace std;
+
+unsigned char brainfuck[32768];
+char command[128000];
+int pairs[128000];
+int main(){
+    int n;
+    cin >> n;
+    for(int i = 1; i <= n; i++){
+        cout << "PROGRAM #" << i << ":" << endl;
+        int k = 0;
+
+        memset(brainfuck, 0, sizeof(brainfuck));
+
+        while(true){
+            string s;
+            getline(cin, s);
+            if(s == "end") {
+                break;
+            }
+            for(int j = 0; j < s.size(); j++){
+                if(s[j] == '%')
+                    break;
+                if(s[j] == ' ')
+                    continue;
+                command[k++] = s[j];
+            }
+        }
+
+        stack<int> Calpair;
+        bool check = false;
+
+        for(int j = 0; j < k; j++){
+            if(command[j] == '[')
+                Calpair.push(j);
+            if(command[j] == ']'){
+                if(Calpair.empty()) {
+                    check = true;
+                    break;
+                }
+                pairs[Calpair.top()] = j;
+                pairs[j] = Calpair.top();
+                Calpair.pop();
+            }
+        }
+
+        if(!Calpair.empty() || check){
+            cout << "COMPILE ERROR" << endl;
+            continue;
+        }
+
+        int p = 0;
+
+        for(int j = 0; j < k; j++){
+            if(command[j] == '+'){
+                if(brainfuck[p] == 255)
+                    brainfuck[p] = 0;
+                else
+                    brainfuck[p]++;
+            }
+            else if(command[j] == '-'){
+                if(brainfuck[p] == 0)
+                    brainfuck[p] = 255;
+                else
+                    brainfuck[p]--;
+            }
+
+            else if(command[j] == '>'){
+                p = (p + 1) % 32768;
+            }
+            else if(command[j] == '<'){
+                p = (p + 32767) % 32768;
+            }
+            else if(command[j] == '.'){
+                cout << brainfuck[p];
+            }
+
+            else if(command[j] == '['){
+                if(brainfuck[p] == 0){
+                    j = pairs[j];
+                }
+            }
+            else if(command[j] == ']'){
+                if(brainfuck[p] != 0){
+                    j = pairs[j];
+                }
+            }
+        }
+        cout << endl;
+    }
+    return 0;
+}
