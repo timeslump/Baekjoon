@@ -1,0 +1,50 @@
+#include <iostream>
+#include <string>
+#include <vector>
+#include <algorithm>
+using namespace std;
+
+bool cmp(string a, string b){
+    if(a.size() < b.size())
+        return true;
+    else if(a.size() > b.size())
+        return false;
+    else{
+        int cntA = 0;
+        int cntB = 0;
+        for(int i = 0; i < a.size(); i++){
+            if(a[i] >= '0' && a[i] <= '9')
+                cntA += a[i] - '0';
+            if(b[i] >= '0' && b[i] <= '9')
+                cntB += b[i] - '0';
+        }
+        if(cntA < cntB)
+            return true;
+        else if(cntA > cntB)
+            return false;
+        else{
+            for(int i = 0; i < a.size(); i++){
+                if(a[i] < b[i])
+                    return true;
+                else if(a[i] > b[i])
+                    return false;
+            }
+            return true;
+        }
+    }
+}
+
+int main(){
+    int n;
+    cin >> n;
+    vector<string> dict;
+    for(int i = 0; i < n; i++){
+      string tmp;
+      cin >> tmp;
+      dict.push_back(tmp);
+    }
+
+    sort(dict.begin(), dict.end(), cmp);
+    for(int i = 0; i < n; i++)
+        cout << dict[i] << endl;
+}
