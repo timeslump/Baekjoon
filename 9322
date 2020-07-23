@@ -1,0 +1,45 @@
+#include<iostream>
+#include<vector>
+#include<algorithm>
+#include<string>
+
+using namespace std;
+int main(){
+    int N;
+    cin >> N;
+    while(N--){
+        string output[1001];
+        int wordNum;
+        vector<string> input;
+        cin >> wordNum;
+        for(int i = 0; i < wordNum; i++){
+            string tmp;
+            cin >> tmp;
+            input.push_back(tmp);
+        }
+        int Index[wordNum] = {0, };
+        for(int i = 0; i < wordNum; i++){
+            string tmp;
+            cin >> tmp;
+            int idx = find(input.begin(), input.end(), tmp) - input.begin();
+            Index[i] = idx;
+        }
+
+        for(int i = 0; i < wordNum; i++){
+            string tmp;
+            cin >> tmp;
+            output[Index[i]] = tmp;
+        }
+        for(int i = 0; i < wordNum; i++){
+            cout << output[i] << " ";
+        }
+        cout << endl;
+    }
+}
+
+
+
+
+
+
+
