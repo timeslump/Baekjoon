@@ -1,0 +1,62 @@
+#include<iostream>
+using namespace std;
+
+int N;
+int sort[1000010];
+int temp[1000010];
+void merge_sort(int *, int , int);
+void merge(int *,int , int, int);
+
+void merge(int *arr, int p, int q, int r){
+    int i = p;
+    int j = q + 1;
+    int k  = p;
+    int a;
+    // compare two part of array and
+    // fill with smaller case
+    while(i <= q && j <= r){
+        if(arr[i] <= arr[j]){
+            temp[k++] = arr[i++];
+        }
+        else {
+            temp[k++] = arr[j++];
+        }
+    }
+    while(i <= q){
+        temp[k++] = arr[i++];
+    }
+    while(j <= r){
+        temp[k++] = arr[j++];
+    }
+
+    for(a = p; a <= r; a++){
+        arr[a] = temp[a];
+    }
+}
+
+
+
+void merge_sort(int* arr, int p, int r){
+    int q = (p + r) / 2;
+    if (p < r) {
+        merge_sort(arr, p, q);
+        merge_sort(arr, q + 1, r);
+        merge(arr, p, q, r);
+    }
+}
+
+
+
+int main(){
+    int N;
+    cin >> N;
+    for(int i = 0; i < N; i++){
+        cin >> sort[i];
+    }
+    merge_sort(sort, 0, N - 1);
+    for(int i = 0; i < N; i++){
+        cout << sort[i] << "\n";
+    }
+}
+
+
