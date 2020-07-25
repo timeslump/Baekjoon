@@ -1,0 +1,11 @@
+#include<iostream>
+#include<cstdlib>
+
+using namespace std;
+int main(){
+    long long * i = new long long;
+    if((long long) i % 5)
+        printf("Korea");
+    else
+        printf("Yonsei");
+}
