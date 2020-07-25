@@ -1,0 +1,25 @@
+#include<iostream>
+#include<cmath>
+using namespace std;
+int main(){
+    int X, Y, D, T;
+    cin >> X >> Y >> D >> T;
+    double dis = sqrt(X * X + Y * Y);
+    int K = dis / D;
+
+    double spare = dis - K * D;
+
+    double result = dis;
+
+    result = min(result, spare + K * T);
+
+    if(K > 0)
+        result = min(result,double (T * (K + 1)));
+    else {
+        result = min(result, D - spare + T);
+        result = min(result, T * 2.0);
+    }
+    printf("%.10f", result);
+}
+
+
