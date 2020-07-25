@@ -1,0 +1,28 @@
+#include<iostream>
+#include<algorithm>
+#include<cmath>
+#include<vector>
+using namespace std;
+
+int main(){
+    ios_base :: sync_with_stdio(false);
+    cin.tie(NULL);
+    cout.tie(NULL);
+    int N, M;
+    cin >> N >> M;
+    int a[100001];
+    a[0] = 0;
+    int tmp;
+    for(int i = 1; i <= N; i++){
+        cin >> tmp;
+        a[i] = a[i - 1] + tmp;
+    }
+    while(M--){
+        int x, y;
+        cin >> x >> y;
+        cout << a[y] - a[x - 1] << "\n";
+    }
+
+}
+
+
