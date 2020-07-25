@@ -1,0 +1,33 @@
+#include<iostream>
+#include<cstdlib>
+#include<algorithm>
+#include<vector>
+using namespace std;
+int Arr[13];
+int k;
+vector<int> vec;
+int cnt = 0;
+void Solve(vector<int> v, int n, int idx){
+    if(n == 6 and idx == k){
+        for(int i = 0; i < 6; i++)
+            cout << v[i] <<  " ";
+        cout << "\n";
+    }
+    else if (idx < k){
+        v.push_back(Arr[idx]);
+        Solve(v, n + 1, idx + 1);
+        v.pop_back();
+        Solve(v, n, idx + 1);
+    }
+}
+
+int main() {
+    cin >> k;
+    while(k != 0){
+        for(int i = 0; i < k; i++)
+            cin >> Arr[i];
+        Solve(vec, 0, 0);
+        cin >> k;
+        cout << endl;
+    }
+}
