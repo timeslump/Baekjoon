@@ -1,0 +1,67 @@
+#include<iostream>
+#include<string>
+#include<cmath>
+
+using namespace std;
+
+
+char Map[8][8];
+char Copy[8][8];
+int ans = 0;
+int dx[9] = {-1, -1, -1, 0, 0, 0, 1, 1, 1};
+int dy[9] = {1, 0, -1, 1, 0, -1, 1, 0, -1};
+void print(char Maps[8][8]){
+    for(int i = 0; i < 8; i++) {
+        for (int j = 0; j < 8; j++) {
+            cout << Maps[i][j] << " ";
+        }
+        cout << endl;
+    }
+    cout << endl;
+}
+void MoveMap(int n){
+    for(int i = 0; i < n; i++){
+        for(int j = 0; j < 8; j++){
+            Map[i][j] = '.';
+        }
+    }
+    int k = 0;
+    for(int i = n; i < 8; i++){
+
+        for(int j = 0; j < 8; j++){
+            Map[i][j] = Copy[k][j];
+        }
+        k++;
+    }
+}
+void dfs(int n, int x, int y){
+    if(n == 8 || (x == 0 && y == 7)){
+        ans = 1;
+        return;
+    }
+    for(int i = 0; i < 9; i++){
+        int nx = x + dx[i];
+        int ny = y + dy[i];
+        MoveMap(n);
+        if(Map[nx][ny] == '#'){
+            continue;
+        }
+        MoveMap(n + 1);
+        if(Map[nx][ny] == '#')
+            continue;
+        if(0 <= nx && nx < 8 && 0 <= ny && ny < 8){
+            dfs(n + 1, nx, ny);
+        }
+    }
+}
+
+int main(){
+    for(int i = 0; i < 8; i++) {
+        for (int j = 0; j < 8; j++) {
+            cin >> Map[i][j];
+            Copy[i][j] = Map[i][j];
+        }
+    }
+    dfs(0, 7, 0);
+    cout << ans << endl;
+}
