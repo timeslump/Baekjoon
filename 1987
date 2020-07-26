@@ -1,0 +1,44 @@
+#include<iostream>
+
+
+using namespace std;
+
+
+
+int Max = 1;
+int dx[4] = {0 , -1, 1, 0};
+int dy[4] = {1, 0, 0, -1};
+
+
+int Clear[26] = {0, };
+int Visit[21][21] = {0, };
+char Maps[21][21];
+int X, Y;
+void dfs(int cnt, int isVisit[21][21], int isClear[26], int x, int y){
+    isVisit[x][y] = 1;
+    isClear[Maps[x][y] - 'A'] = 1;
+    if(cnt > Max)
+        Max = cnt;
+    for(int i = 0; i < 4; i++){
+
+        int nx = x + dx[i];
+        int ny = y + dy[i];
+
+        if(0 <= nx && nx < X && 0 <= ny && ny < Y) {
+            if (isVisit[nx][ny] == 0 && isClear[Maps[nx][ny] - 'A'] == 0)
+                dfs(cnt + 1, isVisit, isClear, nx, ny);
+        }
+    }
+    isVisit[x][y] = 0;
+    isClear[Maps[x][y] - 'A'] = 0;
+}
+int main(){
+    cin >> X >> Y;
+    for(int i = 0; i < X; i++){
+        for(int j = 0; j < Y; j++){
+            cin >> Maps[i][j];
+        }
+    }
+    dfs(1, Visit, Clear, 0, 0);
+    cout << Max << endl;
+}
