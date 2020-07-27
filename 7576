@@ -1,0 +1,68 @@
+#include<iostream>
+#include<queue>
+using namespace std;
+
+
+
+int Max = 0;
+int dx[4] = {0 , -1, 1, 0};
+int dy[4] = {1, 0, 0, -1};
+
+bool Visit[1000][1000];
+int Maps[1000][1000];
+int X, Y;
+int cnt = 0;
+queue<pair<int, int>> q;
+void Solve(){
+    int x, y;
+    while(!q.empty()){
+        x = q.front().first;
+        y = q.front().second;
+        for(int i = 0; i < 4; i++){
+            int nx = x + dx[i];
+            int ny = y + dy[i];
+            if(0 <= nx && nx < X && 0 <= ny && ny < Y && Maps[nx][ny] == 0 && Visit[nx][ny] == false){
+                Visit[nx][ny] = true;
+                Maps[nx][ny] = Maps[x][y] + 1;
+                q.push({nx, ny});
+            }
+        }
+        q.pop();
+    }
+}
+
+void Check(){
+    int Max = -1;
+    int i, j;
+    for(i = 0; i < X; i++){
+        for(j = 0; j < Y; j++){
+            if(Maps[i][j] == 0){
+                cout << -1 << endl;
+                return;
+            }
+            if(Max < Maps[i][j])
+                Max = Maps[i][j];
+        }
+    }
+    cout << Max - 1 << endl;
+}
+int main(){
+    cin >> Y >> X;
+    int i, j;
+    for(i = 0; i < X; i++){
+        for(j = 0; j < Y; j++){
+            cin >> Maps[i][j];
+            Visit[i][j] = false;
+        }
+    }
+    bool check = false;
+    for(i = 0; i < X; i++){
+        for(j = 0; j < Y; j++) {
+            if(Maps[i][j] == 1){
+                q.push({i, j});
+            }
+        }
+    }
+    Solve();
+    Check();
+}
