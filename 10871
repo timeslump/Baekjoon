@@ -1,0 +1,23 @@
+#include<iostream>
+#include<vector>
+#include<queue>
+#include<cmath>
+using namespace std;
+
+#define ll long long
+
+int Arr[10001] = {0, };
+int main(){
+    ios_base :: sync_with_stdio(false);
+    cin.tie(NULL);
+    cout.tie(NULL);
+    int N, K;
+    cin >> N >> K;
+    while(N--){
+        int tmp;
+        cin >> tmp;
+        if(tmp < K)
+            cout << tmp << " ";
+    }
+    cout << endl;
+}
