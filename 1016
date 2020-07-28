@@ -1,0 +1,32 @@
+#include<iostream>
+#include<vector>
+#include<queue>
+#include<cmath>
+using namespace std;
+
+#define ll unsigned long long
+bool Arr[1000001];
+int main(){
+
+    ll MIN, MAX;
+    ll i, j;
+    cin >> MIN >> MAX;
+
+    ll temp;
+    for(i = 2; pow(i, 2) <= MAX; i++){
+        j = pow(i, 2);
+        if(MIN % j)
+            temp = MIN + j - (MIN % j);
+        else
+            temp = MIN;
+        while(temp <= MAX){
+            Arr[temp - MIN] = true;
+            temp += j;
+        }
+    }
+    ll cnt = 0;
+    for(int i = 0; i < MAX - MIN + 1; i++)
+        if(!Arr[i])
+            cnt++;
+    cout << cnt << endl;
+}
