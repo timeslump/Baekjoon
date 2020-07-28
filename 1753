@@ -1,0 +1,45 @@
+#include<iostream>
+#include<vector>
+#include<queue>
+using namespace std;
+int V, E;
+int K;
+vector<pair<int, int>> v[20001];
+int d[20001] = {0, };
+
+void Dijkstra(){
+    priority_queue<pair<int, int>> q;
+    q.push({0, K});
+    d[K] = 0;
+    while(!q.empty()){
+        int src = q.top().second;
+        q.pop();
+        for(int i = 0; i < v[src].size(); i++){
+            int dst = v[src][i].first;
+            int weight = v[src][i].second;
+            if(d[dst] > d[src] + weight){
+                d[dst] = d[src] + weight;
+                q.push({-d[dst], dst});
+            }
+        }
+    }
+}
+int main(){
+    cin >> V >> E;
+    cin >> K;
+    while(E--){
+        int src, dst, weight;
+        cin >> src >> dst >> weight;
+        v[src].push_back({dst, weight});
+    }
+    for(int i = 1; i <= V; i++){
+        d[i] =  999999999;
+    }
+    Dijkstra();
+    for(int i = 1; i <= V; i++){
+        if(d[i] ==  999999999)
+            cout << "INF" << "\n";
+        else
+            cout << d[i] << "\n";
+    }
+}
