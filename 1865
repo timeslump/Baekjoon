@@ -1,0 +1,51 @@
+#include<iostream>
+#include<vector>
+using namespace std;
+
+#define ll long long
+
+int main() {
+    int TC;
+    cin >> TC;
+    while(TC--){
+        int N, M, W;
+        cin >> N >> M >> W;
+        int d[501] = {0, };
+
+        vector<pair<int, int>> v[501];
+        int src, dst, weight;
+        while(M--){
+            cin >> src >> dst >> weight;
+            v[src].push_back({dst, -weight});
+            v[dst].push_back({src, -weight});
+        }
+        while(W--){
+            cin >> src >> dst >> weight;
+            v[src].push_back({dst, weight});
+        }
+        int cnt = 1;
+        while(cnt++){
+            int check = true;
+            for(int i = 1; i <= N; i++){
+                src = i;
+                for(int j = 0; j < v[src].size(); j++){
+                    dst = v[src][j].first;
+                    weight = v[src][j].second;
+                    if(d[dst] < d[src] + weight) {
+                        check = false;
+                        d[dst] = d[src] + weight;
+                    }
+                    //cout << src << " " << dst << " " << d[dst] << endl;
+                }
+            }
+            if(check) {
+                cout << "NO" << endl;
+                break;
+            }
+            if(cnt > N){
+                cout << "YES" << endl;
+                break;
+            }
+        }
+    }
+}
