@@ -1,0 +1,16 @@
+#include<iostream>
+#include<vector>
+using namespace std;
+
+#define ll long long
+
+int main() {
+    int N, M;
+    cin >> N >> M;
+    if(N > M)
+        cout << ">";
+    else if(N < M)
+        cout << "<";
+    else
+        cout << "==";
+}
