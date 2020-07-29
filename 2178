@@ -1,0 +1,45 @@
+#include<iostream>
+#include<vector>
+#include<queue>
+#include<cmath>
+#include<string>
+#include<algorithm>
+using namespace std;
+
+#define ll long long
+
+int Arr[101][101] = {0, };
+int Visit[101][101] = {0, };
+int N, M;
+int cnt = 0;
+int dx[4] = {1, 0, -1 , 0};
+int dy[4] = {0, -1, 0, 1};
+void bfs(){
+    queue<pair<int, int>> q;
+    q.push({0, 0});
+    while(!q.empty()){
+        int x = q.front().first;
+        int y = q.front().second;
+        q.pop();
+        for(int i = 0; i < 4; i++){
+            int nx = x + dx[i];
+            int ny = y + dy[i];
+            if(0 <= nx && nx < N && 0 <= ny && ny < M && Visit[nx][ny] == 0 && Arr[nx][ny] != 0){
+                Visit[nx][ny] = 1;
+                Arr[nx][ny] = Arr[x][y] + 1;
+                q.push({nx, ny});
+            }
+        }
+    }
+}
+
+int main(){
+    cin >> N >> M;
+    for(int i = 0; i < N; i++){
+        for(int j = 0; j < M; j++){
+            scanf("%1d", &Arr[i][j]);
+        }
+    }
+    bfs();
+    cout << Arr[N - 1][M - 1] << endl;
+}
