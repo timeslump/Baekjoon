@@ -1,0 +1,134 @@
+#include<iostream>
+#include<vector>
+#include<queue>
+#include<cmath>
+#include<string>
+#include<algorithm>
+using namespace std;
+
+#define ll long long
+
+int Arr[100][100] = {0, };
+int R, C, K;
+int i, j;
+int nR, nC;
+int cnt = 0;
+
+bool CheckAns(){
+    if(Arr[R][C] == K)
+        return true;
+    else if(cnt > 100){
+        cnt  = -1;
+        return true;
+    }
+    else
+        return false;
+}
+
+bool cmp(pair<int, int> a, pair<int, int> b){
+    int af = a.first;
+    int as = a.second;
+    int bf = b.first;
+    int bs = b.second;
+    if(bs > as)
+        return true;
+    else if(bs < as)
+        return false;
+    else{
+        if(bf > af)
+            return true;
+        else
+            return false;
+    }
+}
+void Cal(){
+    if(nR >= nC){
+        int newC = 0;
+        for(i = 0; i < nR; i++){
+            vector<pair<int, int>> v;
+            int temp[101] = {0, };
+            for(j = 0; j < nC; j++){
+                temp[Arr[i][j]]++;
+            }
+            for(j = 1; j < 101; j++){
+                if(temp[j] != 0){
+                    v.push_back({j, temp[j]});
+                }
+            }
+            sort(v.begin(), v.end(), cmp);
+            int k = 0;
+            for(int j = 0; j < v.size(); j++){
+                Arr[i][k++] = v[j].first;
+                Arr[i][k++] = v[j].second;
+                if(k > 100)
+                    break;
+            }
+            newC = max(newC, k);
+            while(k < 100)
+                Arr[i][k++] = 0;
+        }
+        nC = newC;
+    }
+    else{
+        int newR = 0;
+        for(j = 0; j < nC; j++){
+            vector<pair<int, int>> v;
+            int temp[101] = {0, };
+            for(i = 0; i < nR; i++){
+                temp[Arr[i][j]]++;
+            }
+            for(i = 1; i < 101; i++){
+                if(temp[i] != 0){
+                    v.push_back({i, temp[i]});
+                }
+            }
+            sort(v.begin(), v.end(), cmp);
+            int k = 0;
+            for(int i = 0; i < v.size(); i++){
+                Arr[k++][j] = v[i].first;
+                Arr[k++][j] = v[i].second;
+                if(k > 100)
+                    break;
+            }
+            newR = max(newR, k);
+            while(k < 100)
+                Arr[k++][j] = 0;
+        }
+        nR = newR;
+    }
+}
+void print(){
+    for(i = 0; i < nR; i++){
+        for(j = 0; j < nC; j++){
+            cout <<  Arr[i][j] << " ";
+        }
+        cout << endl;
+    }
+    cout << endl;
+}
+int main(){
+    ios_base :: sync_with_stdio(false);
+    cin.tie(NULL);
+    cout.tie(NULL);
+    cin >> R >> C >> K;
+    R--;
+    C--;
+    nR = 3;
+    nC = 3;
+
+    for(i = 0; i < nR; i++){
+        for(j = 0; j < nR; j++){
+            cin >> Arr[i][j];
+        }
+    }
+
+    while(1){
+        if(CheckAns()){
+            cout << cnt << endl;
+            break;
+        }
+        Cal();
+        //print();
+        cnt++;
+    }
+}
