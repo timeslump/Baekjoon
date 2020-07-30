@@ -1,0 +1,56 @@
+#include<iostream>
+#include<vector>
+#include<queue>
+#include<algorithm>
+#include<stack>
+using namespace std;
+
+#define ll long long
+int N;
+int Arr[125][125] ={0, };
+int d[125][125] ={0, };
+int dx[4] = {1, 0 , -1, 0};
+int dy[4] = {0, 1, 0, -1};
+void Solve(){
+    priority_queue<pair<pair<int, int>, int>> q;
+    q.push({{0,0}, 0});
+    d[0][0] = 0;
+    while(!q.empty()){
+        int x = q.top().first.first;
+        int y = q.top().first.second;
+        q.pop();
+        for(int i = 0; i < 4; i++){
+            int nx = x + dx[i];
+            int ny = y + dy[i];
+            if(0 > nx || nx >= N || 0 > ny || ny >= N)
+                continue;
+            if(d[nx][ny] > d[x][y] + Arr[x][y]){
+                d[nx][ny] = d[x][y] + Arr[x][y];
+                q.push({{nx, ny}, -d[nx][ny]});
+            }
+        }
+    }
+}
+void Clear(){
+    for(int i = 0; i < N; i++){
+        for(int j = 0; j < N; j++){
+            d[i][j] = 999999999;
+        }
+    }
+}
+int main() {
+    int cnt = 0;
+    cin >> N;
+    while(N){
+        Clear();
+        cnt++;
+        for(int i = 0; i < N; i++){
+            for(int j = 0; j < N; j++){
+                cin >> Arr[i][j];
+            }
+        }
+        Solve();
+        cout << "Problem " << cnt << ": " << d[N - 1][N - 1] + Arr[N - 1][N - 1] << endl;
+        cin >> N;
+    }
+}
