@@ -1,0 +1,60 @@
+#include<iostream>
+#include<algorithm>
+using namespace std;
+typedef long long ll;
+#define MAX 100002
+int a[MAX];
+int mintree[4 * MAX];
+int N, M;
+int minimum;
+
+void initmin(int start, int end, int node){
+    if(start == end) {
+        mintree[node] = a[start];
+        return;
+    }
+    int mid = (start + end) / 2;
+    initmin(start, mid, node * 2);
+    initmin(mid + 1, end, node * 2 + 1);
+    mintree[node] = min(mintree[node * 2], mintree[node * 2 + 1]);
+}
+
+void findmin(int start, int end, int node, int left, int right){
+    if(right < start || end < left){
+        return;
+    }
+    if(left <= start && end <= right){
+        minimum = min(mintree[node], minimum);
+        return;
+    }
+
+    int mid = (start + end) / 2;
+    findmin(start, mid, 2 * node, left, right);
+    findmin(mid + 1, end, 2 * node + 1, left, right);
+}
+
+void find(int start, int end, int node, int left, int right) {
+    minimum = 1100000000;
+    findmin(1, N, 1, left, right);
+    cout << minimum << "\n";
+}
+void init(int start, int end, int node){
+    initmax(start, end, node);
+    initmin(start, end, node);
+}
+
+int main() {
+    ios_base :: sync_with_stdio(false);
+    cin.tie(NULL);
+    cout.tie(NULL);
+    cin >> N >> M;
+    for(int i = 1; i <= N; i++)
+        cin >> a[i];
+    init(1, N, 1);
+    //print();
+    while(M--){
+        int left, right;
+        cin >> left >> right;
+        find(1, N, 1, left, right);
+    }
+}
