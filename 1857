@@ -1,0 +1,147 @@
+#include<iostream>
+#include<vector>
+#include<queue>
+#include<algorithm>
+#include<stack>
+using namespace std;
+
+#define ll long long
+
+int dx[8] = {2, 1, -1, -2, -2, -1, 1, 2};
+int dy[8] = {1, 2, 2, 1, -1, -2, -2, -1};
+int Arr[31][31];
+ll dp[31][31][200] = {0, };
+bool Visit[31][31];
+bool Visitfor1[31][31];
+bool Newinput[31][31];
+int N, M;
+int i, j;
+int startx, starty;
+int endx, endy;
+int k = 0;
+queue<pair<int, int>> visit;
+deque<pair<int,int>> q;
+
+void initNew(){
+    for(i = 0; i < N; i++) {
+        for (j = 0; j < M; j++) {
+            Newinput[i][j] = false;
+        }
+    }
+}
+void init(){
+    for(i = 0; i < N; i++) {
+        for (j = 0; j < M; j++) {
+            Visit[i][j] = false;
+        }
+    }
+}
+
+void init1(){
+    for(i = 0; i < N; i++) {
+        for (j = 0; j < M; j++) {
+            Visitfor1[i][j] = Visit[i][j];
+        }
+    }
+}
+
+void dfs(int x, int y){
+    stack<pair<int, int>> s;
+    s.push({x, y});
+    while(!s.empty()) {
+        x = s.top().first;
+        y = s.top().second;
+        s.pop();
+        for (int i = 0; i < 8; i++) {
+            int nx = x + dx[i];
+            int ny = y + dy[i];
+            if (0 <= nx && nx < N && 0 <= ny && ny < M && Arr[nx][ny] != 2 && !Visitfor1[nx][ny]) {
+                Visitfor1[nx][ny] = true;
+                if (Arr[nx][ny] == 1) {
+                    dp[nx][ny][k] = dp[x][y][k];
+                    s.push({nx, ny});
+                } else {
+                    dp[nx][ny][k] = dp[nx][ny][k] + dp[x][y][k];
+                }
+                visit.push({nx, ny});
+            }
+        }
+    }
+}
+void Input(){
+    for(i = 0; i < N; i++) {
+        for (j = 0; j < M; j++) {
+            if(Newinput[i][j] && Arr[i][j] != 1)
+                q.push_back({i, j});
+        }
+    }
+}
+void bfs(){
+    q.push_back({startx, starty});
+    init();
+    Visit[startx][starty] = true;
+    while(!q.empty()){
+        int sz = q.size();
+        k++;
+        while(sz--) {
+            int x = q.front().first;
+            int y = q.front().second;
+            q.pop_front();
+            init1();
+            Visitfor1[x][y] = true;
+            for(int i = 0; i < 8; i++){
+                int nx = x + dx[i];
+                int ny = y + dy[i];
+                if(0 <= nx && nx < N && 0 <= ny && ny < M && Arr[nx][ny] != 2 && !Visit[nx][ny]){
+                    if(Arr[nx][ny] == 0 || Arr[nx][ny] == 4) {
+                        Visitfor1[nx][ny] = true;
+                        dp[nx][ny][k] = dp[nx][ny][k] + dp[x][y][k - 1];
+                    }
+                    else if(Arr[nx][ny] == 1){
+                        dp[nx][ny][k] = dp[x][y][k - 1];
+                        dfs(nx, ny);
+                    }
+                    visit.push({nx, ny});
+                }
+            }
+        }
+        initNew();
+        while(!visit.empty()){
+            int x = visit.front().first;
+            int y = visit.front().second;
+            Visit[x][y] = true;
+            Newinput[x][y] = true;
+            visit.pop();
+        }
+        Input();
+        if(dp[endx][endy][k] != 0)
+            return;
+    }
+}
+
+
+int main() {
+    cin >> N >> M;
+    for(i = 0; i < N; i++){
+        for(j = 0; j < M; j++){
+            cin >> Arr[i][j];
+            if(Arr[i][j] == 3){
+                startx = i;
+                starty = j;
+            }
+            if(Arr[i][j] == 4){
+                endx = i;
+                endy = j;
+            }
+        }
+    }
+    dp[startx][starty][0] = 1;
+    bfs();
+
+    if(dp[endx][endy][k] == 0)
+        cout << -1 << endl;
+    else{
+        cout << k - 1 << endl;
+        cout << dp[endx][endy][k] << endl;
+    }
+}
