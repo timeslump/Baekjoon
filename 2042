@@ -1,0 +1,60 @@
+#include<iostream>
+using namespace std;
+
+typedef long long ll;
+#define MAX 1000002
+ll a[MAX];
+ll tree[4 * MAX];
+int N, M, K;
+ll init(int start, int end, int node){
+    if(start == end)
+        return tree[node] = a[start];
+    int mid = (start + end) / 2;
+    return tree[node] = init(start, mid, node * 2) + init(mid + 1, end, node * 2 + 1);
+}
+
+ll sum(int start, int end, int node, int left, int right) {
+    if(left <= start && end <= right)
+        return tree[node];
+    if(left > end || right < start)
+        return 0;
+    int mid = (start + end) / 2;
+    return sum(start, mid, node * 2, left, right) + sum(mid + 1, end, node * 2 + 1, left, right);
+}
+
+void update(int start, int end, int node, int index, ll add){
+    if(index < start || index > end)
+        return;
+    tree[node] += add;
+    if(start == end)
+        return;
+    int mid = (start + end) / 2;
+    update(start, mid, node * 2, index, add);
+    update(mid + 1, end, node * 2 + 1, index , add);
+}
+void print(){
+    for(int i = 1; i <= 4 * N; i++)
+        cout << tree[i] << " ";
+    cout << endl;
+}
+int main() {
+
+    cin >> N >> M >> K;
+    for(int i = 1; i <= N; i++)
+        cin >> a[i];
+    init(1, N, 1);
+    int cnt = M + K;
+    int ax, b, c;
+    while(cnt--){
+        cin >> ax >> b >> c;
+        if(ax == 1){
+            ll tmp = a[b];
+            ll diff = c - tmp;
+            a[b] = c;
+            update(1, N, 1, b, diff);
+        }
+        else if(ax == 2){
+            cout << sum(1, N, 1, b, c) << "\n";
+        }
+    }
+}
