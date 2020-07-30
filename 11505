@@ -1,0 +1,59 @@
+#include<iostream>
+#include<algorithm>
+#include<vector>
+using namespace std;
+typedef long long ll;
+#define MAX 1000010
+const int MOD = 1000000007;
+ll a[MAX];
+ll tree[4 * MAX];
+int N, M, K;
+
+ll init(int start, int end, int node){
+    if(start == end) {
+        return tree[node] = a[start];
+    }
+    int mid = (start + end) / 2;
+    return tree[node] = (init(start, mid, node * 2) % MOD * init(mid + 1, end, node * 2 + 1) % MOD) % MOD;
+}
+
+ll update(int start, int end, int node, int index, ll c){
+    if(index < start || index > end)
+        return tree[node];
+    if(start == end)
+        return tree[node] = c;
+    int mid = (start + end) / 2;
+    return tree[node] = (update(start, mid, node * 2, index, c) % MOD * update(mid + 1, end, node * 2 + 1, index, c) % MOD) % MOD;
+}
+ll find(int start, int end, int node, int left, int right){
+    if(right < start || end < left)
+        return 1;
+    if(left <= start && end <= right)
+        return tree[node];
+    int mid = (start + end) / 2;
+    return (find(start, mid, 2 * node, left, right) % MOD * find(mid + 1, end, 2 * node + 1, left, right) % MOD) % MOD;
+}
+
+
+
+int main() {
+    ios_base :: sync_with_stdio(false);
+    cin.tie(NULL);
+    cout.tie(NULL);
+    cin >> N >> M >> K;
+    for(int i = 1; i <= N; i++)
+        cin >> a[i];
+    init(1, N, 1);
+    int cnt = M + K;
+    int op, b, c;
+    while(cnt--){
+        cin >> op >> b >> c;
+        if(op == 1){
+            update(1, N, 1, b, c);
+            a[b] = c;
+        }
+        else{
+            cout << find(1, N, 1, b, c) << "\n";
+        }
+    }
+}
