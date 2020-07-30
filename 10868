@@ -39,7 +39,6 @@ void find(int start, int end, int node, int left, int right) {
     cout << minimum << "\n";
 }
 void init(int start, int end, int node){
-    initmax(start, end, node);
     initmin(start, end, node);
 }
 
