@@ -1,0 +1,55 @@
+#include<iostream>
+using namespace std;
+#define MAX 100003
+typedef long long ll;
+ll Arr[MAX];
+ll tree[MAX * 4];
+int N, Q;
+int a,b,c,d;
+
+ll init(int start, int end, int node){
+    if(start == end)
+        return tree[node] = Arr[start];
+    int mid = (start + end) / 2;
+    return tree[node] = init(start, mid, node * 2) + init(mid + 1, end, node * 2 + 1);
+}
+
+ll sum(int start, int end, int node, int left, int right){
+    if(right < start || left > end)
+        return 0;
+    if(start >= left && right >= end)
+        return tree[node];
+    int mid = (start + end) / 2;
+    return sum(start, mid, node * 2, left, right) + sum(mid + 1, end, node * 2 + 1, left, right);
+}
+
+void update(int start, int end, int node, int index, ll diff){
+    if(index < start || index > end)
+        return;
+    tree[node] += diff;
+    if(start == end){
+        return;
+    }
+    int mid = (start + end) / 2;
+    update(start, mid, node * 2, index, diff);
+    update(mid + 1, end, node * 2 + 1, index, diff);
+}
+int main() {
+    ios_base :: sync_with_stdio(false);
+    cin.tie(NULL);
+    cout.tie(NULL);
+    cin >> N >> Q;
+    for(int i = 1; i <= N; i++)
+        cin >> Arr[i];
+    init(1, N, 1);
+    while(Q--){
+        cin >> a >> b >> c >> d;
+        if(a > b){
+            swap(a, b);
+        }
+        cout << (ll) sum(1, N, 1, a, b) << '\n';
+        ll diff = d - Arr[c];
+        update(1, N, 1, c, diff);
+        Arr[c] = d;
+    }
+}
