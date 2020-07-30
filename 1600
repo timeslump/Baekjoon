@@ -1,0 +1,78 @@
+#include<iostream>
+#include<vector>
+#include<queue>
+#include<algorithm>
+#include<stack>
+using namespace std;
+
+#define ll long long
+
+int dx[8] = {2, 1, -1, -2, -2, -1, 1, 2};
+int dy[8] = {1, 2, 2, 1, -1, -2, -2, -1};
+int mx[4] = {1, 0, -1, 0};
+int my[4] = {0, 1, 0, -1};
+int i, j;
+int Arr[200][200];
+int N, M;
+bool Visit[200][200][31];
+int Move[200][200][31] = {0, };
+int k;
+queue<pair<pair<int, int>, int>> q;
+void bfs4horse(){
+    q.push({{0, 0}, k});
+    Visit[0][0][k] = true;
+    while(!q.empty()){
+        int x = q.front().first.first;
+        int y = q.front().first.second;
+        int k = q.front().second;
+        q.pop();
+        for(int i = 0; i < 8; i++){
+            int nx = x + dx[i];
+            int ny = y + dy[i];
+            if(0 <= nx && nx < N && 0 <= ny && ny < M && !Visit[nx][ny][k - 1] && Arr[nx][ny] != 1 && k > 0){
+                Visit[nx][ny][k - 1] = true;
+                Move[nx][ny][k - 1] = Move[x][y][k] + 1;
+                q.push({{nx, ny}, k - 1});
+            }
+        }
+        for(int i = 0; i < 4; i++){
+            int nx = x + mx[i];
+            int ny = y + my[i];
+            if(0 <= nx && nx < N && 0 <= ny && ny < M && !Visit[nx][ny][k] && Arr[nx][ny] != 1){
+                Visit[nx][ny][k] = true;
+                Move[nx][ny][k] = Move[x][y][k] + 1;
+                q.push({{nx, ny}, k});
+            }
+        }
+    }
+}
+
+int main() {
+    cin >> k;
+    int tmp = k;
+    cin >> M >> N;
+    for(i = 0; i < N; i++) {
+        for (j = 0; j < M; j++) {
+            cin >> Arr[i][j];
+        }
+    }
+    bfs4horse();
+    int Min = 0;
+    int check = false;
+    for(int i = 0; i <= tmp; i++){
+        if(Visit[N - 1][M - 1][i]){
+            check = true;
+        }
+        if(Visit[N - 1][M - 1][i]) {
+            if (Min == 0)
+                Min = Move[N - 1][M - 1][i];
+            else
+                Min = min(Min, Move[N - 1][M - 1][i]);
+        }
+    }
+
+    if(!check)
+        cout << -1 << endl;
+    else
+        cout << Min << endl;
+}
