@@ -1,0 +1,31 @@
+#include<iostream>
+#include<algorithm>
+#include<vector>
+using namespace std;
+typedef long long ll;
+#define MAX 1000010
+ll N, M, K;
+int main() {
+    ios_base :: sync_with_stdio(false);
+    cin.tie(NULL);
+    cout.tie(NULL);
+    cin >> N >> K >> M;
+    ll T = N;
+    ll cnt = 0;
+    while(T--){
+        cnt++;
+        ll idx = K % N;
+        if(idx == 0)
+            idx = N;
+
+        //cout << N << idx << M << endl;
+        if(M == idx)
+            break;
+        if(M > idx)
+            M = M - idx;
+        else
+            M = (N - idx + M) % N;
+        N--;
+    }
+    cout << cnt << endl;
+}
