@@ -1,0 +1,77 @@
+#include<iostream>
+#include<vector>
+using namespace std;
+#define MAX 1000005
+typedef long long ll;
+ll Arr[MAX] = {0, };
+ll tree[MAX * 4] = {0, };
+
+ll mult(int start, int end, int node, int left, int right){
+    if(end < left || right < start)
+        return 1;
+    if(left <= start && end <= right)
+        return tree[node];
+    int mid = (start + end) / 2;
+    return mult(start, mid, node * 2, left, right) * mult(mid + 1,end ,node * 2 + 1, left, right);
+}
+
+int init(int start, int end, int node){
+    if(start == end)
+        return tree[node] = Arr[start];
+    int mid = (start + end) / 2;
+    return tree[node] = init(start, mid, node * 2) * init(mid + 1, end, node * 2 + 1);
+}
+
+void update(int start, int end, int node, int index, int diff){
+    if(end < index || index < start)
+        return;
+    tree[node] += diff;
+    if(start == end) {
+        tree[node] = diff;
+        return;
+    }
+    int mid = (start + end) / 2;
+    update(start, mid, node * 2, index, diff);
+    update(mid + 1, end, node * 2 + 1, index, diff);
+    tree[node] = tree[node * 2] * tree[node * 2 + 1];
+}
+int main() {
+    ios_base::sync_with_stdio(false);
+    cin.tie(NULL);
+    cout.tie(NULL);
+    int N, K, j;
+    while(cin >> N >> K){
+        for (int i = 1; i <= N; i++) {
+            cin >> j;
+            if (j < 0)
+                j = -1;
+            else if (j > 0)
+                j = 1;
+            Arr[i] = j;
+        }
+        init(1, N, 1);
+        while (K--) {
+            char op;
+            int i, j;
+            cin >> op >> i >> j;
+            if (op == 'C') {
+                if (j < 0)
+                    j = -1;
+                else if (j > 0)
+                    j = 1;
+                update(1, N, 1, i, j);
+            }
+            else {
+                int ans = mult(1, N, 1, i, j);
+                if (ans == 1)
+                    cout << "+";
+                else if (ans == -1)
+                    cout << "-";
+                else
+                    cout << 0;
+            }
+        }
+        cout << "\n";
+    }
+    return 0;
+}
