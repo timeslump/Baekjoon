@@ -1,0 +1,48 @@
+#include<iostream>
+#include<vector>
+using namespace std;
+#define MAX 1000005
+typedef long long ll;
+ll Arr[MAX] = {0, };
+ll tree[MAX * 4] = {0, };
+
+ll sum(int start, int end, int node, int left, int right){
+    if(end < left || right < start)
+        return 0;
+    if(left <= start && end <= right)
+        return tree[node];
+    int mid = (start + end) / 2;
+    return sum(start, mid, node * 2, left, right) + sum(mid + 1,end ,node * 2 + 1, left, right);
+}
+
+void update(int start, int end, int node, int index, int diff){
+    if(end < index || index < start)
+        return;
+    tree[node] += diff;
+    if(start == end)
+        return;
+    int mid = (start + end) / 2;
+    update(start, mid, node * 2, index, diff);
+    update(mid + 1, end, node * 2 + 1, index, diff);
+}
+int main() {
+    ios_base::sync_with_stdio(false);
+    cin.tie(NULL);
+    cout.tie(NULL);
+    ll N, M;
+    cin >> N >> M;
+    while(M--){
+        int a, b, c;
+        cin >> a >> b >> c;
+        if(a == 0){
+            if(b > c)
+                swap(b, c);
+            cout << sum(1, N, 1, b, c) << "\n";
+        }
+        else{
+            ll diff = c - Arr[b];
+            Arr[b] = c;
+            update(1, N, 1, b, diff);
+        }
+    }
+}
