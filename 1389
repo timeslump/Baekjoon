@@ -1,0 +1,54 @@
+#include<iostream>
+#include<vector>
+#include<queue>
+#include<string.h>
+
+using namespace std;
+typedef long long ll;
+int N, M;
+ll d[5001] = {0, };
+vector<int> v[5001];
+void Solve(int n){
+    priority_queue<pair<int, int>> q;
+    q.push({0, n});
+    while(!q.empty()){
+        int src;
+        src = q.top().second;
+        q.pop();
+        for(int i = 0; i < v[src].size(); i++){
+            int dst= v[src][i];
+            if(d[dst] > d[src] + 1){
+                d[dst] = d[src] + 1;
+                q.push({-d[dst], dst});
+            }
+        }
+    }
+}
+void set(){
+    for(int i = 1; i <= N; i++)
+        d[i] = 999999;
+}
+int main(){
+    cin >> N >> M;
+    while(M--){
+        int a, b;
+        cin >> a >> b;
+        v[a].push_back(b);
+        v[b].push_back(a);
+    }
+    int Min = 99999;
+    int ans;
+    for(int i = 1; i <= N; i++){
+        set();
+        d[i] = 0;
+        Solve(i);
+        int cnt = 0;
+        for(int i = 1; i <= N; i++)
+            cnt += d[i];
+        if(Min > cnt) {
+            Min = cnt;
+            ans = i;
+        }
+    }
+    cout << ans;
+}
