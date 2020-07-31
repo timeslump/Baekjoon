@@ -1,0 +1,58 @@
+#include<iostream>
+using namespace std;
+#define MAX 1000003
+typedef long long ll;
+ll tree[MAX * 4] = {0, };
+
+void update(int start, int end, int node, int index, int diff){
+    if(index < start || index > end)
+        return;
+    tree[node] += diff;
+    if(start == end)
+        return;
+    int mid = (start + end) / 2;
+    update(start, mid, node * 2, index, diff);
+    update(mid +1, end, node * 2 + 1, index, diff);
+}
+
+int sum(int start, int end, int node, int left, int right){
+    if(left > end || start > right)
+        return 0;
+    if(start >= left && right >= end)
+        return tree[node];
+    int mid = (start + end) / 2;
+    return sum(start, mid, node * 2, left, right) + sum(mid + 1, end, node * 2 + 1, left, right);
+}
+
+void find(int start, int end, ll B, int node){
+    if(start == end){
+        cout << start << "\n";
+        update(1, MAX, 1, start, -1);
+        return;
+    }
+    int mid = (start + end) / 2;
+    //cout << start <<"  " << mid << " " << end << tree[node * 2] << "  " << B << endl;
+    if(tree[node * 2] >= B)
+        find(start, mid ,B, node * 2);
+    else
+        find((start + end) / 2 + 1, end, B - tree[node * 2] ,node * 2 + 1);
+}
+int main() {
+    ios_base :: sync_with_stdio(false);
+    cin.tie(NULL);
+    cout.tie(NULL);
+    int N;
+    cin >> N;
+    while(N--){
+        ll A, B, C;
+        cin >> A;
+        if(A == 2){
+            cin >> B >> C;
+            update(1, MAX, 1, B, C);
+        }
+        else{
+            cin >> B;
+            find(1, MAX, B, 1);
+        }
+    }
+}
