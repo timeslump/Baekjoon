@@ -1,0 +1,33 @@
+#include<iostream>
+#include<queue>
+#include<string.h>
+#include<stack>
+#include<cmath>
+using namespace std;
+int main(){
+    int N;
+    cin >> N;
+    int cnt = 0;
+    while(N--){
+        string s;
+        cin >> s;
+        bool check = true;
+        int text['z' - 'a' + 1] ={0, };
+        int i = 0;
+        while(i < s.size()){
+            if(text[s[i] - 'a'] == 1){
+                check = false;
+                break;
+            }
+            text[s[i] - 'a'] = 1;
+            i++;
+            //cout << s[i - 1] << s[i] << endl;
+            while(s[i - 1] == s[i]){
+                i++;
+            }
+        }
+        if(check)
+            cnt++;
+    }
+    cout << cnt;
+}
