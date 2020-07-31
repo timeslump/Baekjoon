@@ -1,0 +1,49 @@
+#include<iostream>
+#include<queue>
+#include<string.h>
+#include<stack>
+#include<cmath>
+using namespace std;
+typedef long long ll;
+
+int main(){
+    char tmp;
+    stack<char> s;
+    stack<int> tot;
+    int ans = 0;
+    string a;
+    cin >> a;
+    int i;
+    for(i = 0; i < a.size(); i++) {
+        s.push(a[i]);
+    }
+    int k = 0;
+    int num = 0;
+    while(1){
+        k = 0;
+        num = 0;
+        while(!s.empty() && s.top() >= '0' && s.top() <= '9'){
+            num += (s.top() - '0') * pow(10, k++);
+            s.pop();
+        }
+        if(s.empty())
+            break;
+        int temp = 0;
+        tot.push(num);
+        if(s.top() == '-') {
+            while (!tot.empty()) {
+                temp += tot.top();
+                tot.pop();
+            }
+        }
+        ans -= temp;
+        s.pop();
+    }
+    while(!tot.empty()){
+        ans += tot.top();
+        tot.pop();
+    }
+    ans += num;
+    cout << ans << endl;
+
+}
