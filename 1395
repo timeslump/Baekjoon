@@ -1,0 +1,66 @@
+#include<iostream>
+#include<queue>
+#include<string.h>
+#include<stack>
+#include<cmath>
+#define MAX 100010
+int Arr[MAX];
+int tree[MAX * 4];
+int lazy[MAX * 4];
+
+int N, M;
+using namespace std;
+void propagate(int s, int e, int n){
+    if(lazy[n]){
+        tree[n] = (e - s + 1) - tree[n];
+        if(s != e){
+            lazy[n * 2] = !lazy[n * 2];
+            lazy[n * 2 + 1] = !lazy[n * 2 + 1];
+        }
+        lazy[n] = 0;
+    }
+}
+
+void update(int s, int e, int n, int l , int r){
+    propagate(s, e, n);
+    if(s > r || e < l)
+        return;
+
+    if(l <= s && e <= r){
+        tree[n] = (e - s + 1) - tree[n];
+        if(s != e){
+            lazy[n * 2] = !lazy[n * 2];
+            lazy[n * 2 + 1] = !lazy[n * 2 + 1];
+        }
+        return;
+    }
+    int mid = (s + e) / 2;
+    update(s, mid, n * 2, l , r);
+    update(mid + 1, e, n * 2 + 1, l, r);
+    tree[n] = tree[n * 2] + tree[n * 2 + 1];
+}
+int query(int s, int e, int n, int l, int r){
+    propagate(s, e, n);
+    if(s > r || e < l)
+        return 0;
+    if(l <= s && e <= r)
+        return tree[n];
+    int mid = (s + e) / 2;
+    return query(s, mid, n * 2, l, r) + query(mid + 1, e, n * 2 + 1, l , r);
+}
+int main(){
+    ios_base::sync_with_stdio(0);
+    cin.tie(0);
+    cout.tie(0);
+    cin >> N >> M;
+    while(M--){
+        int o, s, t;
+        cin >> o >> s >> t;
+        if(o == 0){
+            update(1, N, 1, s, t);
+        }
+        else{
+            cout << query(1, N, 1, s, t) << "\n";
+        }
+    }
+}
