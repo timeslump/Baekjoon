@@ -1,0 +1,66 @@
+#include<queue>
+#include<iostream>
+#include<set>
+using namespace std;
+#define INT_INF 1234567890
+
+
+int N, M, K;
+int dx[4] = {1, -1 ,0 ,0};
+int dy[4] = {0, 0, 1, -1};
+int Map[1001][1001];
+int Ans[1001][1001][11] = {0, };
+bool Visit[1001][1001][11];
+vector<int> v;
+
+int num = 0;
+void bfs(int i, int j, int k){
+    queue<pair<pair<int, int>, int>> q;
+    q.push({{i, j}, k});
+    Ans[i][j][k] = 1;
+    Visit[i][j][k] = true;
+    while(!q.empty()){
+        int x = q.front().first.first;
+        int y = q.front().first.second;
+        int k = q.front().second;
+        //cout << x << y << k << endl;
+        q.pop();
+        for(int i = 0; i < 4; i++){
+            int nx = x + dx[i];
+            int ny = y + dy[i];
+            if(0 > nx || nx >= N || 0 > ny || ny >= M || Visit[nx][ny][k])
+                continue;
+            if(k > 0 && Map[nx][ny] == 1){
+                Visit[nx][ny][k - 1] = true;
+                Ans[nx][ny][k - 1] = Ans[x][y][k] + 1;
+                q.push({{nx, ny}, k - 1});
+            }
+            if(Map[nx][ny] == 1)
+                continue;
+            if(Ans[nx][ny][k] < Ans[x][y][k] + 1 && Ans[nx][ny][k] != 0)
+                continue;
+            Ans[nx][ny][k] = Ans[x][y][k] + 1;
+            Visit[nx][ny][k] = true;
+            q.push({{nx, ny}, k});
+        }
+    }
+}
+int main(void){
+    cin >> N >> M >> K;
+    for(int i = 0; i < N; i++){
+        for(int j = 0; j < M; j++){
+            scanf("%1d",&Map[i][j]);
+        }
+    }
+
+    bfs(0, 0, K);
+    int mini = INT_INF;
+    for(int i = 0; i <= K; i++)
+        if(Visit[N - 1][M - 1][i])
+            mini = min(mini, Ans[N-1][M-1][i]);
+
+    if(mini == INT_INF)
+        cout << -1;
+    else
+        cout << mini;
+}
