@@ -1,0 +1,65 @@
+#include<queue>
+#include<iostream>
+#include<set>
+using namespace std;
+#define INT_INF 1234567890
+
+int N, M, K;
+int dx[5] = {1, -1 ,0 ,0};
+int dy[5] = {0, 0, 1, -1};
+int Map[1001][1001];
+bool Visit[1001][1001][11];
+
+int cnt = 0;
+int bfs(int i, int j, int k){
+    queue<pair<pair<int, int>, pair<int, bool>>> q;
+    q.push({{i, j}, {k, true}});
+    Visit[i][j][k] = true;
+    bool sun = true;
+
+    while(!q.empty()) {
+        int qs = q.size();
+        cnt++;
+        while(qs--) {
+            int x = q.front().first.first;
+            int y = q.front().first.second;
+            int k = q.front().second.first;
+            bool canstay = q.front().second.second;
+            q.pop();
+            if(x == N - 1 && y == M - 1)
+                return cnt;
+            bool stay = canstay;
+
+            for (int i = 0; i < 4; i++) {
+                int nx = x + dx[i];
+                int ny = y + dy[i];
+                if (0 > nx || nx >= N || 0 > ny || ny >= M || Visit[nx][ny][k])
+                    continue;
+                if (k > 0 && Map[nx][ny] == 1 && !Visit[nx][ny][k - 1]){
+                    if(sun){
+                        Visit[nx][ny][k - 1] = true;
+                        q.push({{nx,    ny},{k - 1, canstay}});
+                    }
+                    else
+                        q.push({{x, y},{k, false}});
+                }
+                if(Map[nx][ny] == 1)
+                    continue;
+                Visit[nx][ny][k] = true;
+                q.push({{nx, ny},{k, canstay}});
+            }
+        }
+        sun = !sun;
+    }
+    return -1;
+}
+int main(void){
+    cin >> N >> M >> K;
+    for(int i = 0; i < N; i++){
+        for(int j = 0; j < M; j++){
+            scanf("%1d",&Map[i][j]);
+        }
+    }
+
+    cout << bfs(0, 0, K);
+}
