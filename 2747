@@ -1,0 +1,20 @@
+#include<iostream>
+using namespace std;
+int N;
+int main(){
+    cin >> N;
+    if(N <= 2){
+        cout << 1;
+        return 0;
+    }
+    N = N - 2;
+    int a = 1;
+    int b = 1;
+    while(N--){
+        int temp = a;
+        a = a + b;
+        b = temp;
+    }
+
+    cout << a;
+}
