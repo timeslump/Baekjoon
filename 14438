@@ -1,0 +1,64 @@
+#include<iostream>
+using namespace std;
+int N;
+#define MAX 100010
+#define LL_MAX 9223372036854775800
+typedef long long ll;
+ll Max;
+ll tree[MAX * 4];
+ll arr[MAX];
+
+ll init(int s, int e, int n){
+    if(s == e)
+        return tree[n] = arr[s];
+    int m = (s + e) / 2;
+    init(s, m, 2 * n);
+    init(m + 1, e, 2 * n + 1);
+    return tree[n] = min(tree[2 * n], tree[2 * n + 1]);
+}
+ll find(int s, int e, int n, int l, int r){
+    if(r < s || e < l)
+        return LL_MAX;
+    if(l <= s && e <= r) {
+        return tree[n];
+    }
+    int m = (s + e) / 2;
+    return min(find(s, m, 2 * n, l , r), find(m + 1, e, 2 * n + 1, l, r));
+}
+
+void update(int s, int e, int n, int i, ll j){
+    if(i < s || e < i)
+        return;
+    if(s == e) {
+        tree[n] = j;
+        return;
+    }
+    int mid = (s + e) / 2;
+    update(s , mid, n * 2, i, j);
+    update(mid + 1, e, n * 2 + 1, i, j);
+    tree[n] = min(tree[n * 2], tree[n * 2 + 1]);
+}
+void print(){
+    for(int i = 1; i < 4 * 5; i++)
+        cout << tree[i] << "  ";
+    cout << endl;
+}
+int main(){
+    cin.tie(NULL);
+    int N, M;
+    cin >> N;
+    for(int i = 1; i <= N; i++)
+        cin >> arr[i];
+    init(1, N, 1);
+    cin >> M;
+    while(M--){
+        ll op, i, j;
+        cin >> op >> i >> j;
+        if(op == 1){
+            update(1, N, 1, i, j);
+        }
+        else{
+            cout << find(1, N, 1, i, j) << "\n";
+        }
+    }
+}
