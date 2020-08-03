@@ -1,0 +1,64 @@
+#include <bits/stdc++.h>
+using namespace std;
+#define MAX 100011
+vector<int> tree[MAX];
+int arr[MAX];
+
+int size;
+
+void update(int pos, int val) {
+    auto it = lower_bound(tree[pos / size].begin(), tree[pos / size].end(), arr[pos]);
+    arr[pos] = val;
+    *it = val;
+    sort(tree[pos / size].begin(), tree[pos / size].end());
+}
+
+
+int query(int i , int j , int k){
+    int cnt = 0;
+    while(i % size && i <= j){
+        if(arr[i++] > k)
+            cnt++;
+    }
+    while((j + 1) % size && i <= j) {
+        if(arr[j--] > k)
+            cnt++;
+    }
+    while(i <= j) {
+        cnt += tree[i / size].end()- upper_bound(tree[i / size].begin(), tree[i / size].end(), k);
+        i += size;
+    }
+    return cnt;
+}
+
+int main(){
+    ios_base::sync_with_stdio(0);
+    cin.tie(0);
+    int N, M;
+    cin >> N;
+    for(int i = 0; i < N; i++){
+        cin >> arr[i];
+    }
+    size = sqrt(N);
+    for(int i = 0; i < N; i++){
+        tree[i/size].push_back(arr[i]);
+    }
+    for(int i = 0; i < N / size  + 1; i++)
+        sort(tree[i].begin(), tree[i].end());
+
+    cin >> M;
+
+     while(M--){
+         int a, b, c, d;
+         cin >> a;
+         if(a == 1){
+             cin >> b >> c >> d;
+             cout << query(b - 1, c - 1, d) << "\n";
+         }
+         else{
+             cin >> b >> c;
+             update(b - 1, c);
+         }
+     }   /*
+      */
+}
