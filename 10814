@@ -1,0 +1,39 @@
+#include <iostream>
+#include <cmath>
+#include <vector>
+#include <algorithm>
+using namespace std;
+
+
+
+struct dict{
+    int x;
+    string s;
+    int n;
+};
+bool cmp(dict a, dict b){
+    return a.x == b.x ? a.n < b.n : a.x < b.x;
+}
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(0);
+    int N;
+    cin >> N;
+    int temp = N;
+    vector<dict> v;
+    int i = 0;
+    while(temp--){
+        int x;
+        string y;
+        cin >> x >> y;
+        dict z;
+        z.n = i++;
+        z.x = x;
+        z.s = y;
+        v.push_back(z);
+    }
+    sort(v.begin(), v.end(), cmp);
+    for(int i = 0; i < N; i++){
+        cout << v[i].x << " " << v[i].s << "\n";
+    }
+}
