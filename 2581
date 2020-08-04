@@ -1,0 +1,42 @@
+#include <iostream>
+#include <cmath>
+#include <algorithm>
+using namespace std;
+
+
+bool Arr[20005];
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(0);
+
+    int N, M;
+    cin >> N >> M;
+    int k = sqrt(M);
+    Arr[1] = true;
+    for(int i = 2; i <= k; i++){
+        int temp = 2;
+        while(i * temp <= M){
+            Arr[i * temp++] = true;
+        }
+    }
+    int cnt = 0;
+    int check = true;
+    int mini;
+    for(int i = N; i <= M; i++){
+        if(!Arr[i]) {
+            cnt += i;
+            if(check){
+                mini = i;
+                check = false;
+            }
+        }
+    }
+    if(cnt == 0){
+        cout << -1;
+        return 0;
+    }
+    cout << cnt << endl;
+    cout << mini;
+    return 0;
+}
