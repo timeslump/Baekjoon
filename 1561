@@ -1,0 +1,50 @@
+#include<iostream>
+#include<algorithm>
+#define endl "\n"
+using namespace std;
+typedef unsigned long long ll;
+
+
+int Arr[10001];
+
+
+
+int main() {
+    ios_base::sync_with_stdio(false);
+    cin.tie(0);
+    ll N, M;
+    cin >> N >> M;
+    for (int i = 0; i < M; i++)
+        cin >> Arr[i];
+
+
+    ll cnt;
+    ll time = 0;
+    ll maxt = 60000000000;
+    ll realtime;
+    while (time  <= maxt) {
+        ll mid = (time + maxt) / 2;
+        cnt = M;
+        for (int i = 0; i < M; i++) {
+            cnt += mid / Arr[i];
+        }
+        if (cnt >= N) {
+            maxt = mid - 1;
+            realtime = mid;
+        } else {
+            time = mid + 1;
+        }
+    }
+    cnt = M;
+    for (int i = 0; i < M; i++) {
+        cnt += ((realtime - 1) / Arr[i]);
+    }
+    for (int i = 0; i < M; i++) {
+        if (realtime % Arr[i] == 0)
+            cnt++;
+        if (cnt == N) {
+            cout << i + 1;
+            return 0;
+        }
+    }
+}
