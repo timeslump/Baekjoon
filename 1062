@@ -1,0 +1,53 @@
+#include<iostream>
+#include<string>
+#include<algorithm>
+#include<vector>
+#include<queue>
+#define endl "\n"
+using namespace std;
+// a, n, t, i, c;
+int MAX = 0;
+bool check['z' - 'a' + 1];
+vector<string> v;
+int N, K;
+void dfs(int cnt, int x){
+    if(cnt == K){
+        int cnt = 0;
+        for(int i = 0; i < v.size(); i++){
+            string s = v[i];
+            bool flag = true;
+            for(int j = 0; j < s.size(); j++){
+                if(!check[s[j] - 'a']){
+                    flag = false;
+                    break;
+                }
+            }
+            if(flag)
+                cnt++;
+        }
+        MAX = max(MAX, cnt);
+        return;
+    }
+    for (int i = x; i < 26; i++){
+        if(check[i])
+            continue;
+        check[i] = true;
+        dfs(cnt + 1, i);
+        check[i] = false;
+    }
+}
+int main(){
+    cin >> N >> K;
+    K = K - 5;
+    vector<char> w;
+    for(int i = 0; i < N; i++){
+        string s;
+        cin >> s;
+        v.push_back(s);
+    }
+    // 여기까지 저 앞 5개를 제외한 단어처리...
+
+    check['a' - 'a'] = check['c'-'a'] = check['t'-'a'] = check['i'-'a'] = check['n'-'a'] = true;
+    dfs(0, 0);
+    cout << MAX << endl;
+}
