@@ -1,0 +1,23 @@
+#include<iostream>
+#define endl "\n"
+using namespace std;
+typedef unsigned long long ll;
+
+
+ll a, b, c;
+
+ll pow(ll a, ll b){
+    if(b == 1)
+        return a % c;
+    if(b % 2 == 0){
+        return (pow(a, b / 2) %c  * pow (a, b / 2) %c) % c;
+    }
+    else{
+        return (pow(a, b / 2) % c* pow(a, b / 2) %c * a %c)% c;
+    }
+}
+int main(){
+    cin >> a >> b >> c;
+    ll ans = pow(a, b);
+    cout << ans;
+}
