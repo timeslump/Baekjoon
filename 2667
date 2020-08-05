@@ -1,0 +1,59 @@
+#include<iostream>
+#include<string>
+#include<algorithm>
+#include<vector>
+#include<queue>
+#define endl "\n"
+using namespace std;
+
+int Arr[30][30];
+bool Visit[30][30];
+int dx[4] = {1, -1, 0, 0};
+int dy[4] = {0, 0, 1, -1};
+
+vector<int> v;
+int N;
+
+void bfs(int i, int j){
+    int cnt = 1;
+    queue<pair<int, int>> q;
+    q.push({i, j});
+    Visit[i][j] = true;
+    while(!q.empty()){
+        int x = q.front().first;
+        int y = q.front().second;
+        q.pop();
+        for(int i = 0; i < 4; i++){
+            int nx = x + dx[i];
+            int ny = y + dy[i];
+            if(0 > nx || nx >= N || 0 > ny || ny >= N || Arr[nx][ny] == 0 || Visit[nx][ny])
+                continue;
+            cnt++;
+            Visit[nx][ny] = true;
+            q.push({nx, ny});
+        }
+    }
+    v.push_back(cnt);
+    return;
+}
+
+int main(){
+    cin >> N;
+    for(int i = 0; i < N; i++){
+        for(int j = 0; j < N; j++){
+            scanf("%1d", &Arr[i][j]);
+        }
+    }
+    for(int i = 0; i < N; i++){
+        for(int j = 0; j < N; j++){
+            if(Arr[i][j] == 1 && !Visit[i][j]) {
+                bfs(i, j);
+            }
+        }
+    }
+
+    sort(v.begin(), v.end());
+    cout << v.size() << endl;
+    for(int i = 0; i < v.size(); i++)
+        cout << v[i] << endl;
+}
