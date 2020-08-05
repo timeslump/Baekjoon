@@ -1,0 +1,54 @@
+#include<iostream>
+#include<algorithm>
+#define endl "\n"
+using namespace std;
+typedef unsigned long long ll;
+
+
+int p[1001];
+int find(int x){
+    if(x == p[x])
+        return x;
+    return p[x] = find(p[x]);
+}
+void uni(int x, int y){
+    x = find(x);
+    y = find(y);
+    if(x == y)
+        return;
+    p[x] = y;
+    return;
+}
+
+int main() {
+    ios_base::sync_with_stdio(false);
+    cin.tie(NULL);
+    int N, M;
+    cin >> N >> M;
+    for(int i = 1; i <= N; i++){
+        p[i] = i;
+    }
+    for(int i = 1; i <= N; i++){
+        for(int j = 1; j <= N; j++){
+            int tmp;
+            cin >> tmp;
+            if(tmp)
+                uni(i, j);
+        }
+    }
+    int mem;
+    for(int i = 0; i < M; i++){
+        int temp;
+        cin >> temp;
+        if(i == 0){
+            mem = find(temp);
+            continue;
+        }
+        if(find(temp) != mem){
+            cout << "NO";
+            return 0;
+        }
+    }
+    cout << "YES";
+    return 0;
+}
