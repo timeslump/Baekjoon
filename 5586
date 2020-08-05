@@ -1,0 +1,29 @@
+#include<iostream>
+#include<string>
+#define endl "\n"
+typedef long long ll;
+using namespace std;
+
+
+int main(void){
+    string s;
+    cin >> s;
+    if(s.size() < 2){
+        cout << 0 << endl;
+        cout << 0;
+        return 0;
+    }
+    int jcnt = 0;
+    int icnt = 0;
+
+    for(int i = 0; i < s.size() - 2; i++){
+        if(s[i + 1] == 'O' && s[i + 2] == 'I'){
+            if(s[i] == 'J')
+                jcnt++;
+            else if(s[i] == 'I')
+                icnt++;
+        }
+    }
+    cout << jcnt << endl;
+    cout << icnt;
+}
