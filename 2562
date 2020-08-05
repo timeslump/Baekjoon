@@ -1,0 +1,27 @@
+#include<iostream>
+#include<algorithm>
+#include<vector>
+#include<map>
+#include<queue>
+#include<string.h>
+#define endl "\n"
+using namespace std;
+typedef unsigned long long ll;
+
+
+
+int main() {
+    ios_base::sync_with_stdio(false);
+    cin.tie(NULL);
+    int max = 0;
+    int idx, temp;
+    for(int i = 0; i < 9; i++){
+        cin >> temp;
+        if(temp > max){
+            max = temp;
+            idx = i + 1;
+        }
+    }
+    cout << max << endl;
+    cout << idx;
+}
