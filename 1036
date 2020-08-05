@@ -1,0 +1,126 @@
+#include<iostream>
+#include<string>
+#include<vector>
+#include<algorithm>
+#include<stack>
+#include<cmath>
+#define endl "\n"
+#define MAX 105
+using namespace std;
+struct dic{
+    char a;
+    int i[55];
+}dict[100];
+int c2i(char a){
+    if(a >= '0' && a <= '9'){
+        return a - 48;
+    } else
+        return a - 55;
+}
+
+int i2c(int i){
+    if(i >= 0 && i <= 9){
+        return i + 48;
+    } else
+        return i + 55;
+}
+
+bool cmp(dic a, dic b){
+    for(int i = 51; i >= 0; i--){
+        if(a.i[i] < b.i[i])
+            return true;
+        else if(a.i[i] > b.i[i])
+            return false;
+    }
+    return false;
+}
+
+char remake[255];
+stack<char> s1;
+stack<char> s2;
+stack<char> s3;
+
+int main(void)
+{
+    int N;
+    cin >> N;
+    for(int i = 0; i < 100; i++){
+        dict[i].a = i;
+        remake[i] = i;
+    }
+
+    vector<string> v;
+    for(int i = 0; i< N; i++){
+        string s;
+        cin >> s;
+        v.push_back(s);
+        for(int j = 0; j < s.size(); j++){
+            char tmp = s[j];
+            dict[tmp].i[s.size() - 1 - j] += (35 - c2i(tmp));
+            int k = 0;
+            while(dict[tmp].i[s.size() - 1 - j + k] >= 36){
+                dict[tmp].i[s.size() - 1 - j + k] -= 36;
+                dict[tmp].i[s.size() - 1 - j + k + 1]++;
+                k++;
+            }
+        }
+    }
+
+    sort(dict, dict + 100, cmp);
+    int K;
+    cin >> K;
+
+    for(int i = 99; i > 99 - K; i--){
+        remake[dict[i].a] = 'Z';
+    }
+
+    for(int i = 0; i <v.size(); i++){
+        for(int j = 0; j < v[i].size(); j++) {
+            v[i][j] = remake[v[i][j]];
+        }
+    }
+    vector<char> ans;
+
+    for(int i = 0; i < v.size(); i++){
+        string s = v[i];
+        for(int j = 0; j < ans.size(); j++)
+            s1.push(ans[j]);
+        for(int j = 0; j < s.size(); j++)
+            s2.push(s[j]);
+        // stack에 정답과 문자열 쌓아주기
+        int x, y, z;
+        z = 0;
+        ans.clear();
+        while(!s1.empty() || !s2.empty()){
+            if(!s1.empty()){
+                x = c2i(s1.top());
+                s1.pop();
+            }
+            else
+                x = 0;
+            if(!s2.empty()){
+                y = c2i(s2.top());
+                s2.pop();
+            }
+            else
+                y = 0;
+            x = x + y + z;
+            if(x >= 36){
+                x -= 36;
+                z = 1;
+            }
+            else
+                z = 0;
+            s3.push(i2c(x));
+        }
+        if(z == 1)
+            s3.push('1');
+        while(!s3.empty()){
+            ans.push_back(s3.top());
+            s3.pop();
+        }
+    }
+    for(int i = 0; i < ans.size(); i++)
+        cout << ans[i];
+    return 0;
+}
