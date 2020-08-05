@@ -11,7 +11,7 @@ int Arr[10001];
 
 int main() {
     ios_base::sync_with_stdio(false);
-    cin.tie(0);
+    cin.tie(NULL);
     ll N, M;
     cin >> N >> M;
     for (int i = 0; i < M; i++)
@@ -20,8 +20,18 @@ int main() {
 
     ll cnt;
     ll time = 0;
-    ll maxt = 60000000000;
+    ll maxt = 2000000000LL * 30LL;
     ll realtime;
+    if (N <= M)
+
+    {
+
+        cout << N << "\n";
+
+        return 0;
+
+    }
+
     while (time  <= maxt) {
         ll mid = (time + maxt) / 2;
         cnt = M;
