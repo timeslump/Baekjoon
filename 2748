@@ -1,0 +1,20 @@
+#include<iostream>
+#include<string>
+#include<algorithm>
+#include<vector>
+#include<queue>
+#define endl "\n"
+using namespace std;
+typedef long long ll;
+
+ll F[91];
+int main(){
+    F[0] = 0;
+    F[1] = 1;
+    for(int i = 2; i <= 90; i++){
+        F[i] = F[i - 1] + F[i - 2];
+    }
+    int n;
+    cin >> n;
+    cout << F[n];
+}
