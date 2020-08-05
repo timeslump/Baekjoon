@@ -1,0 +1,27 @@
+#include<iostream>
+#include<algorithm>
+#include<vector>
+#include<map>
+#define endl "\n"
+
+using namespace std;
+
+typedef unsigned long long ll;
+
+map<string, string> p;
+int dp[50001] = {0, };
+int main() {
+    ios_base::sync_with_stdio(false);
+    int N, M;
+    cin >> N >> M;
+    while(N--){
+        string s1, s2;
+        cin >> s1 >> s2;
+        p[s1] = s2;
+    }
+    while(M--){
+        string s;
+        cin >> s;
+        cout << p[s] << endl;
+    }
+}
