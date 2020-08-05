@@ -1,0 +1,56 @@
+#include<iostream>
+#include<string>
+#define endl "\n"
+typedef long long ll;
+using namespace std;
+#define MAX 100005
+
+int Arr[MAX] ={0, };
+int tree[MAX * 4] = {0, };
+int idx[MAX] = {0, };
+int sum(int s, int e, int n, int l, int r){
+    if(e < l || r < s)
+        return 0;
+    if(l <= s && e <= r)
+        return tree[n];
+    int m = (s + e) / 2;
+    return sum(s, m, n * 2, l, r) + sum(m + 1, e, n * 2 + 1 , l , r);
+}
+
+int find(int x){
+    if(x == idx[x])
+        return x;
+    return idx[x] = find(idx[x]);
+}
+void update(int s, int e, int n, int idx, int val){
+    if(idx < s || e < idx)
+        return;
+    tree[n] += val;
+    if(s == e)
+        return;
+    int m = (s + e) / 2;
+    update(s, m, n * 2, idx, val);
+    update(m + 1, e, n * 2 + 1, idx, val);
+}
+int main(void){
+    ios::sync_with_stdio(false); cin.tie(0); cout.tie(0);
+    int G, P;
+    cin >> G >> P;
+    int cnt = 0;
+    for(int i = 1; i < MAX; i++)
+        idx[i] = i;
+    while(P--){
+        int x;
+        cin >> x;
+        if(sum(1, G, 1, 1, x) == x)
+            break;
+        int pos = find(x);
+        if(!pos)
+            break;
+        idx[pos] = pos - 1;
+        Arr[pos] = 1;
+        update(1, G, 1, pos, 1);
+        cnt++;
+    }
+    cout << cnt;
+}
