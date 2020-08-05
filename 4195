@@ -1,0 +1,59 @@
+#include<iostream>
+#include<algorithm>
+#include<vector>
+#include<map>
+#define endl "\n"
+using namespace std;
+typedef unsigned long long ll;
+
+
+map<string, string> p;
+map<string, int> num;
+map<string, int> r;
+string find(string x){
+    if(x == p[x])
+        return x;
+    return p[x] = find(p[x]);
+}
+void uni(string x, string y){
+    x = find(x);
+    y = find(y);
+    if(x == y)
+        return;
+    if(r[x] > r[y])
+        swap(x, y);
+    if(r[x] == r[y])
+        r[y]++;
+    p[x] = y;
+    num[y] += num[x];
+    return;
+}
+
+int main() {
+    ios_base::sync_with_stdio(false);
+    cin.tie(NULL);
+    int T, N;
+    cin >> T;
+    while(T--){
+        cin >> N;
+        while(N--) {
+            string s1, s2;
+            cin >> s1 >> s2;
+            if(p[s1] == ""){
+                r[s1] = 0;
+                num[s1] = 1;
+                p[s1] = s1;
+            }
+            if(p[s2] == ""){
+                r[s2] = 0;
+                num[s2] = 1;
+                p[s2] = s2;
+            }
+            uni(s1, s2);
+            cout << num[find(s1)] << endl;
+        }
+        p.clear();
+        r.clear();
+        num.clear();
+    }
+}
