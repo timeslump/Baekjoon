@@ -1,0 +1,52 @@
+#include<iostream>
+#include<string>
+#define endl "\n"
+typedef long long ll;
+using namespace std;
+
+
+char wolf[4] = {'w','o','l','f'};
+int main(void){
+    string s;
+    cin >> s;
+    int i = 0;
+    while(i < s.size()){
+        int cnt = 0;
+        while(s[i] == 'w' && i < s.size()){
+            i++;
+            cnt++;
+        }
+        if(i >= s.size() || cnt == 0){
+            cout << 0;
+            return 0;
+        }
+        int cmp = 0;
+        while(s[i] == 'o' && i < s.size()){
+            i++;
+            cmp++;
+        }
+        if(i >= s.size() || cmp != cnt){
+            cout << 0;
+            return 0;
+        }
+        cmp = 0;
+        while(s[i] == 'l' && i < s.size()){
+            i++;
+            cmp++;
+        }
+        if(i >= s.size() || cmp != cnt){
+            cout << 0;
+            return 0;
+        }
+        cmp = 0;
+        while(s[i] == 'f' && i < s.size()){
+            i++;
+            cmp++;
+        }
+        if(i > s.size() || cmp != cnt){
+            cout << 0;
+            return 0;
+        }
+    }
+    cout << 1;
+}
