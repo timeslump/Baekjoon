@@ -1,0 +1,43 @@
+#include<iostream>
+#include<algorithm>
+#include<vector>
+#include<cmath>
+#define endl "\n"
+
+using namespace std;
+
+typedef unsigned long long ll;
+
+
+int dp[50001] = {0, };
+int main() {
+    ios_base::sync_with_stdio(false);
+    cin.tie(NULL);
+    int N;
+    cin >> N;
+    for(int i = 1; i <= sqrt(50000); i++){
+        for(int j = 1; j <= sqrt(50000); j++){
+            int temp= i * i + j * j;
+            if(temp > 50000)
+                continue;
+            dp[temp] = 2;
+        }
+    }
+    for(int i = 1; i < sqrt(50000); i++){
+            dp[i * i ] = 1;
+    }
+    int xmax = 40;
+    if(dp[N]){
+        cout << dp[N];
+        return 0;
+    }
+    for(int i = 1; i <= sqrt(N); i++) {
+        if(dp[N - i * i]){
+            xmax = min(xmax, dp[N - i*i] + 1);
+        }
+    }
+    if(xmax != 40)
+        cout << xmax << endl;
+    else
+        cout << 4 << endl;
+}
