@@ -1,0 +1,60 @@
+#include<iostream>
+using namespace std;
+#define endl "\n"
+
+int Map[9][9];
+bool c[9][10];
+bool r[9][10];
+bool sq[9][10];
+
+void print(){
+    for(int i = 0; i < 9; i++) {
+        for (int j = 0; j < 9; j++) {
+            cout << Map[i][j] << " ";
+        }
+        cout << endl;
+    }
+}
+
+int changemid(int x, int y){
+    return x / 3 * 3 + y / 3;
+}
+void dfs(int x){
+    if(x == 81){
+        print();
+        exit(0);
+    }
+    int i = x / 9;
+    int j = x % 9;
+
+    if(Map[i][j])
+        dfs(x + 1);
+    else{
+        for(int k = 1; k <= 9; k++){
+            if (!c[j][k] && !r[i][k] && !sq[changemid(i, j)][k]) {
+                Map[i][j] = k;
+                c[j][k] = true;
+                r[i][k] = true;
+                sq[changemid(i, j)][k] = true;
+                dfs(x + 1);
+                Map[i][j] = 0;
+                c[j][k] = false;
+                r[i][k] = false;
+                sq[changemid(i, j)][k] = false;
+            }
+        }
+    }
+}
+int main() {
+    for (int i = 0; i < 9; i++) {
+        for (int j = 0; j < 9; j++) {
+            cin >> Map[i][j];
+            if (Map[i][j]) {
+                c[j][Map[i][j]] = true;
+                r[i][Map[i][j]] = true;
+                sq[changemid(i, j)][Map[i][j]] = true;
+            }
+        }
+    }
+    dfs(0);
+}
