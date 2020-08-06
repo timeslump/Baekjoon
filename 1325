@@ -1,0 +1,54 @@
+#include<iostream>
+#include<algorithm>
+#include<queue>
+#include<map>
+#include<string>
+#define endl "\n"
+
+using namespace std;
+
+typedef unsigned long long ll;
+vector<int> v[10001];
+int cnt = 0;
+int N, M;
+bool V[10001];
+void dfs(int x){
+    V[x] = true;
+    for(int i = 0; i < v[x].size(); i++){
+        if(V[v[x][i]])
+            continue;
+        cnt++;
+        dfs(v[x][i]);
+    }
+}
+
+void init(){
+    for(int i = 1; i <= N; i++)
+        V[i] = false;
+}
+int main() {
+
+    cin >> N >> M;
+    while(M--){
+        int a, b;
+        cin >> a >> b;
+        v[b].push_back(a);
+    }
+    vector<int> ans;
+    int Max = 0;
+    for(int i = 1; i <= N; i++){
+        cnt = 0;
+        init();
+        dfs(i);
+        if(Max < cnt){
+            Max = cnt;
+            ans.clear();
+            ans.push_back(i);
+        }
+        else if(Max == cnt){
+            ans.push_back(i);
+        }
+    }
+    for(int i = 0; i < ans.size(); i++)
+        cout << ans[i] << " ";
+}
