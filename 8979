@@ -1,0 +1,59 @@
+#include<iostream>
+#include<vector>
+#include<algorithm>
+using namespace std;
+
+struct con{
+    int g,s,i;
+    int con;
+};
+bool cmp(con a, con b){
+    int ag = a.g;
+    int bg = b.g;
+    if(ag == bg){
+        int as = a.s;
+        int bs = b.s;
+        if(as == bs){
+            int ai = a.i;
+            int bi = b.i;
+            return bi > ai;
+        }
+        else
+            return bs > as;
+    }
+    else
+        return bg > ag;
+}
+vector<con> v;
+int main() {
+    int N, K;
+    cin >> N >> K;
+    for(int i = 1; i <= N; i++){
+        con temp;
+        int con,g,s,ir;
+        cin >> con >> g >> s>> ir;
+        temp.con = con;
+        temp.g = g;
+        temp.s = s;
+        temp.i = ir;
+        v.push_back(temp);
+    }
+    sort(v.begin(),v.end(), cmp);
+    int rank = 0;
+    int i;
+    for(i = v.size() - 1; i >= 0; i--){
+        rank++;
+        if(v[i].con == K)
+            break;
+    }
+    int r = i;
+    for(i++; i < v.size(); i++){
+        if(v[r].g == v[i].g && v[r].s == v[i].s && v[r].i == v[i].i){
+            rank--;
+            continue;
+        }
+        else
+            break;
+    }
+    cout << rank << endl;
+}
