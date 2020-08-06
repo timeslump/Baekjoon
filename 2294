@@ -1,0 +1,36 @@
+#include<iostream>
+#include<algorithm>
+#include<queue>
+#include<map>
+#include<string>
+#define endl "\n"
+
+using namespace std;
+
+int main() {
+    int n, k;
+    vector<int> v;
+    cin >> n >> k;
+    for(int i = 0; i < n; i++){
+        int temp;
+        cin >> temp;
+        v.push_back(temp);
+    }
+    int dp[10001] = {0, };
+    for(int i = 1; i <= k; i++){
+        dp[i] = 100001;
+    }
+    dp[0] = 0;
+    for(int i = 1; i <= k; i++){
+        for(int j = 0; j < v.size(); j++) {
+            if(i - v[j] < 0)
+                continue;
+            if(dp[i] > dp[i - v[j]] + 1)
+                dp[i] = dp[i - v[j]] + 1;
+        }
+    }
+    if(dp[k] != 100001)
+        cout << dp[k];
+    else
+        cout << -1;
+}
