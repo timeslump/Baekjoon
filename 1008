@@ -1,0 +1,12 @@
+#include<iostream>
+#include<vector>
+#include<algorithm>
+
+#define endl "\n"
+using namespace std;
+
+int main(){
+    double a, b;
+    cin >> a >> b;
+    printf("%0.10f", a/ b);
+}
