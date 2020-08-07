@@ -1,0 +1,18 @@
+#include<iostream>
+#include<vector>
+#include<stack>
+#include<algorithm>
+
+#define endl "\n"
+typedef long long ll;
+using namespace std;
+ll Arr[100001];
+
+int main(){
+    int A,B,C;
+    cin >> A >> B >> C;
+    cout <<  (A+B)%C << endl;
+    cout << ((A%C) + (B%C))%C << endl;
+    cout << (A * B)%C << endl;
+    cout <<  ((A%C) * (B%C))%C;5 8 4
+}
