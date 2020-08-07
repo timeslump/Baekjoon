@@ -1,0 +1,32 @@
+#include<iostream>
+#include<vector>
+#include<stack>
+#include<algorithm>
+#include<map>
+#define endl "\n"
+typedef long long ll;
+using namespace std;
+
+
+bool cmp(string a, string b){
+    if(a.size() == b.size()){
+        return a < b;
+    }
+    return a.size() < b.size();
+}
+int main(){
+    vector<string> v;
+    int N;
+    cin >> N;
+    while(N--){
+        string s;
+        cin >> s;
+        v.push_back(s);
+    }
+    sort(v.begin(), v.end(), cmp);
+    for(int i = 0; i < v.size(); i++) {
+        if(i != 0 && v[i] == v[i - 1])
+            continue;
+        cout << v[i] << endl;
+    }
+}
