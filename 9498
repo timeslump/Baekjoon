@@ -1,0 +1,24 @@
+#include<iostream>
+#include<vector>
+#include<stack>
+#include<algorithm>
+
+#define endl "\n"
+typedef long long ll;
+using namespace std;
+ll Arr[100001];
+
+int main(){
+    int N;
+    cin >> N;
+    if(100 >= N && N >= 90)
+        cout << "A";
+    else if(N >= 80)
+        cout << "B";
+    else if(N >= 70)
+        cout << "C";
+    else if(N >= 60)
+        cout << "D";
+    else
+        cout << "F";
+}
