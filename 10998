@@ -1,0 +1,14 @@
+#include<iostream>
+#include<vector>
+#include<stack>
+#include<algorithm>
+
+#define endl "\n"
+typedef long long ll;
+using namespace std;
+
+int main(){
+    int A,B;
+    cin >> A >> B;
+    cout << A * B;
+}
