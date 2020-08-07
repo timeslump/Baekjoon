@@ -1,0 +1,44 @@
+#include<iostream>
+#include<vector>
+#include<stack>
+#include<algorithm>
+#include<map>
+#define endl "\n"
+typedef long long ll;
+using namespace std;
+
+
+map<char, char> m;
+int main(){
+    string s;
+    m[')'] = '(';
+    m[']'] = '[';
+    while(getline(cin,s)){
+    	if(s == ".")
+    		break;
+        stack<char> tmp;
+        bool check = true;
+        for(int i = 0; i < s.size(); i++){
+            if(s[i] == '[' || s[i] == '(')
+                tmp.push(s[i]);
+            else if(s[i] == ']' || s[i] == ')'){
+                if(tmp.empty() || tmp.top() != m[s[i]]){
+                    check = false;
+                    break;
+                }
+                else
+                    tmp.pop();
+            }
+            else
+            	continue;
+        }
+        if(!tmp.empty()){
+            check = false;
+        }
+        if(check)
+            cout << "yes" << endl;
+        else
+            cout << "no" << endl;
+    }
+    exit(0);
+}
