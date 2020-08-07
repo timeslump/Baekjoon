@@ -1,0 +1,33 @@
+#include<iostream>
+#define endl "\n"
+using namespace std;
+
+
+int N;
+bool check(int x){
+    for(int i = 2; i * i <= x; i++){
+        if(x % i == 0)
+            return false;
+    }
+    return true;
+}
+void dfs(int cnt, int prime){
+    if(!check(prime))
+        return;
+    if(cnt == N - 1){
+        cout << prime << endl;
+        return;
+    }
+    dfs(cnt + 1, prime * 10 + 1);
+    dfs(cnt + 1, prime * 10 + 3);
+    dfs(cnt + 1, prime * 10 + 7);
+    dfs(cnt + 1, prime * 10 + 9);
+}
+
+int main(){
+    cin >> N;
+    dfs(0, 2);
+    dfs(0, 3);
+    dfs(0, 5);
+    dfs(0, 7);
+}
