@@ -1,0 +1,64 @@
+#include<iostream>
+#include<vector>
+#include<algorithm>
+
+#define endl "\n"
+using namespace std;
+
+
+typedef long long ll;
+
+
+bool tree[12][31];
+int N, M, H;
+
+bool check(){
+    for(int i = 1; i <= N; i++){
+        int k = i;
+        for(int j = 1; j <= H; j++){
+            if(tree[k][j])
+                k = k + 1;
+            else if(tree[k - 1][j])
+                k = k - 1;
+        }
+        if(i != k)
+            return false;
+    }
+    return true;
+}
+int xmin = 4;
+
+void dfs(int num, int idx){
+    if(num > 3)
+        return;
+    if(check()) {
+        xmin = min(xmin, num);
+        return;
+    }
+    for(int i = idx; i <= H; i++){
+        for(int j = 1; j < N; j++){
+            if(tree[j][i] || tree[j - 1][i] || tree[j + 1][i])
+                continue;
+            tree[j][i] = true;
+            dfs(num + 1, i);
+            tree[j][i] = false;
+        }
+    }
+}
+int main(){
+    ios::sync_with_stdio(false);
+    cin.tie(NULL);
+    cout.tie(NULL);
+
+    cin >> N >> M >> H;
+    for(int i = 0; i < M;i++){
+        int a, b;
+        cin >> a >> b;
+        tree[b][a] = true;
+    }
+    dfs(0, 1);
+    if(xmin == 4)
+        cout << -1;
+    else
+        cout << xmin;
+}
