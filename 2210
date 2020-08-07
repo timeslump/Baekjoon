@@ -1,0 +1,40 @@
+#include<iostream>
+
+using namespace std;
+
+bool check[1000000];
+int Map[5][5];
+int ans = 0;
+int dx[4] = {1, -1, 0 ,0};
+int dy[4] = {0, 0, 1, -1};
+void Solve(int x, int i, int j, int cnt){
+    if(cnt == 5){
+        if(!check[x]){
+            check[x] = true;
+            ans++;
+        }
+        return;
+    }
+    for(int k = 0; k < 4; k++){
+        int nx = i + dx[k];
+        int ny = j + dy[k];
+        if(nx < 0 || nx >= 5 || ny < 0 || ny >= 5)
+            continue;
+        Solve(x * 10 + Map[nx][ny], nx, ny, cnt + 1);
+    }
+}
+
+int main(){
+    for(int i = 0; i < 5; i++){
+        for(int j = 0; j < 5; j++){
+            cin >> Map[i][j];
+        }
+    }
+
+    for(int i = 0; i < 5; i++){
+        for(int j = 0; j < 5; j++){
+            Solve(Map[i][j], i, j, 0);
+        }
+    }
+    cout << ans;
+}
