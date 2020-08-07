@@ -1,0 +1,71 @@
+#include<iostream>
+
+using namespace std;
+
+bool check[1000000];
+int Map[11][11];
+int ans = 0;
+int dx[2] = {1, 1};
+int dy[2] = {-1, 1};
+int Max = 0;
+int N;
+
+void Copy(int a[11][11], int b[11][11]){
+    for(int i = 0; i < N; i++){
+        for(int j = 0; j < N; j++){
+            a[i][j] = b[i][j];
+        }
+    }
+}
+void Solve(int cnt, int count){
+    int h;
+    if(N % 2)
+        h = 0;
+    else{
+        if((cnt % N) == N - 1)
+            h = -1;
+        else if((cnt % N) == N - 2)
+            h = 1;
+        else
+            h = 0;
+    }
+    if(cnt >= N * N){
+        Max = max(Max, count);
+        return;
+    }
+    int x = cnt / N;
+    int y = cnt % N;
+    if(!Map[x][y])
+        Solve(cnt + 2 + h, count);
+    else{
+        int tmpMap[11][11];
+        Copy(tmpMap, Map);
+        for(int i = 1; i < N; i++){
+            for(int j = 0; j < 2; j++){
+                int nx = x + dx[j] * i;
+                int ny = y + dy[j] * i;
+                if(0 > nx || nx >= N || 0 > ny || ny >= N)
+                    continue;
+                Map[nx][ny] = 0;
+            }
+        }
+        Solve(cnt + 2 + h, count + 1);
+        Copy(Map, tmpMap);
+        Solve(cnt + 2 + h, count);
+    }
+}
+
+
+int main(){
+    cin >> N;
+    for(int i = 0; i < N; i++){
+        for(int j = 0; j < N; j++){
+            cin >> Map[i][j];
+        }
+    }
+    Solve(0, 0);
+    int temp = Max;
+    Max = 0;
+    Solve(1, 0);
+    cout << temp + Max;
+}
