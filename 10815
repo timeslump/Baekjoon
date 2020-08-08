@@ -1,0 +1,46 @@
+#include<iostream>
+#include<map>
+#include<vector>
+#include<algorithm>
+#include<queue>
+#include<string>
+#include<set>
+#define endl "\n"
+#define MAX 500010
+typedef long long ll;
+using namespace std;
+
+int Arr[MAX];
+using namespace std;
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(NULL);
+    int N;
+    cin >> N;
+    for(int i = 0; i < N; i++)
+        cin >> Arr[i];
+    sort(Arr, Arr + N);
+    int M;
+    cin >> M;
+    while(M--){
+        int temp;
+        cin >> temp;
+        int lo = 0;
+        int hi = N;
+        while(lo <= hi){
+            int mid = (lo + hi) / 2;
+            if(Arr[mid] > temp)
+                hi = mid - 1;
+            else if(Arr[mid] == temp){
+                lo = mid;
+                break;
+            }
+            else
+                lo = mid + 1;
+        }
+        if(Arr[lo] == temp)
+            cout << 1 << " ";
+        else
+            cout << 0 << " ";
+    }
+}
