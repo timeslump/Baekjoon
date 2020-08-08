@@ -1,0 +1,17 @@
+#include <string>
+#include <deque>
+#include<iostream>
+
+using namespace std;
+int N, K;
+int main(){
+    string a, b;
+    int n = 0;
+    getline(cin, a);
+    getline(cin, b);
+    while(a.find(b) != string::npos){
+        n++;
+        a = a.substr(a.find(b) + b.size() , a.size() - (b.size() + a.find(b)));
+    }
+    cout << n;
+}
