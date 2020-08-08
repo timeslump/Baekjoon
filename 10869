@@ -1,0 +1,22 @@
+#include<iostream>
+#include<map>
+#include<vector>
+#include<algorithm>
+#include<queue>
+#include<string>
+#include<set>
+#define endl "\n"
+#define MAX 100010
+typedef long long ll;
+using namespace std;
+
+using namespace std;
+int main() {
+    int A, B;
+    cin >> A >> B;
+    cout << A + B << endl;
+    cout << A - B << endl;
+    cout << A * B << endl;
+    cout << A / B << endl;
+    cout << A % B << endl;
+}
