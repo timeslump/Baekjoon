@@ -1,0 +1,28 @@
+#include<iostream>
+#include<map>
+#include<vector>
+#include<algorithm>
+#include<queue>
+#include<string>
+#include<set>
+#define endl "\n"
+
+using namespace std;
+int dp[50];
+using namespace std;
+int main() {
+    string s;
+    cin >> s;
+    int a[50];
+    for(int i = 2; i < s.size() + 2; i++)
+        a[i] = s[i - 2] - '0';
+    dp[1] = 1;
+    for(int i = 2; i < s.size() + 2; i++){
+        if(a[i])
+            dp[i] += dp[i - 1];
+        int temp = a[i - 1] * 10 + a[i];
+        if(temp > 9 && temp < 35)
+            dp[i] += dp[i  - 2];
+    }
+    cout << dp[s.size() + 1];
+}
