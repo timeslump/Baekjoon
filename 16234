@@ -1,0 +1,91 @@
+#include<iostream>
+#include<map>
+#include<vector>
+#include<algorithm>
+#include<queue>
+#include<cmath>
+#define endl "\n"
+
+using namespace std;
+
+
+
+int Map[51][51];
+bool Visited[51][51];
+
+int dx[4] = {0, 1, -1 , 0};
+int dy[4] = {1, 0, 0 , -1};
+int N, L, R;
+void bfs(int i,int j){
+    int sum = Map[i][j];
+    queue<pair<int, int>> q;
+    queue<pair<int, int>> t;
+    q.push({i, j});
+    t.push({i, j});
+    while(!q.empty()){
+        int x = q.front().first;
+        int y = q.front().second;
+        q.pop();
+        for(int i = 0; i < 4; i++){
+            int nx = x + dx[i];
+            int ny = y + dy[i];
+            if(0 > nx || nx >= N || 0 > ny || ny >= N || Visited[nx][ny])
+                continue;
+            if(L > abs(Map[x][y] - Map[nx][ny]) || abs(Map[x][y] - Map[nx][ny]) > R)
+                continue;
+            Visited[nx][ny] = true;
+            q.push({nx, ny});
+            t.push({nx, ny});
+            sum += Map[nx][ny];
+        }
+    }
+    if(t.size() > 0)
+        sum = sum / t.size();
+    while(!t.empty()){
+        int x = t.front().first;
+        int y= t.front().second;
+        Map[x][y] = sum;
+        t.pop();
+    }
+}
+int main(){
+    ios_base::sync_with_stdio(0);
+    cin.tie(0);
+    cin >> N >> L >> R;
+    for(int i = 0; i < N; i++){
+        for(int j = 0; j < N; j++){
+            cin >> Map[i][j];
+        }
+    }
+    int cnt = 0;
+    while(1) {
+        fill(&Visited[0][0], &Visited[0][0] + sizeof(Visited)/sizeof(bool), 0);
+        int Mem[51][51];
+        for(int i = 0; i < N; i++){
+            for(int j = 0; j < N; j++){
+                Mem[i][j] = Map[i][j];
+            }
+        }
+        for (int i = 0; i < N; i++) {
+            for (int j = 0; j < N; j++) {
+                if (!Visited[i][j]) {
+                    Visited[i][j] = true;
+                    bfs(i, j);
+                }
+            }
+        }
+        bool check = true;
+        for(int i = 0; i < N; i++){
+            for(int j = 0; j < N; j++){
+                if(Mem[i][j] != Map[i][j]){
+                    if(check)
+                        cnt++;
+                    check = false;
+                }
+            }
+        }
+        if(check)
+            break;
+    }
+    cout << cnt << endl;
+}
