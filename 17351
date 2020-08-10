@@ -1,0 +1,67 @@
+#include <string>
+#include <iostream>
+#include <queue>
+#include <algorithm>
+using namespace std;
+#define MAX 2001
+#define MOD 1000000007
+#define endl "\n"
+typedef long long ll;
+int i, j, N;
+char Map[510][510];
+
+int dp[511][511];
+
+int main(){
+    cin >> N;
+
+    for(i = 1; i <= N; i++){
+        for(j = 1; j <= N; j++){
+            cin >> Map[i][j];
+        }
+    }
+
+    for(i = 1; i <= N; i++){
+        int xmax = 0;
+        for(j = 1; j <= N; j++){
+            if(Map[i][j] == 'A'){
+                if(i - 3 >= 1 && Map[i - 3][j] == 'M'){
+                    if(Map[i - 2][j] == 'O' && Map[i - 1][j] == 'L'){
+                        xmax = max(xmax, dp[i - 3][j] + 1);
+                    }
+                }
+                if(i - 2 >= 1 && j - 1 >= 1 && Map[i - 2][j - 1] == 'M'){
+                    if(Map[i - 1][j - 1] == 'O' && Map[i][j - 1] == 'L'){
+                        xmax = max(xmax, dp[i - 2][j - 1] + 1);
+                    }
+                    if(Map[i - 2][j] == 'O' && Map[i - 1][j] == 'L' ){
+                        xmax = max(xmax, dp[i - 2][j - 1] + 1);
+                    }
+                    if(Map[i - 1][j - 1] == 'O' && Map[i - 1][j] == 'L' ){
+                        xmax = max(xmax, dp[i - 2][j - 1] + 1);
+                    }
+                }
+                if(i - 1 >= 1 && j - 2 >= 1 && Map[i - 1][j - 2] == 'M'){
+                    if(Map[i - 1][j - 1] == 'O' && Map[i - 1][j] == 'L'){
+                        xmax = max(xmax, dp[i - 1][j - 2] + 1);
+                    }
+                    if(Map[i - 1][j - 1] == 'O' && Map[i][j - 1] == 'L'){
+                        xmax = max(xmax, dp[i - 1][j - 2] + 1);
+                    }
+                    if(Map[i][j - 2] == 'O' && Map[i][j - 1] == 'L'){
+                        xmax = max(xmax, dp[i - 1][j - 2] + 1);
+                    }
+                }
+                if(j - 3 >= 1 && Map[i][j - 3] =='M'){
+                    if(Map[i][j - 2] == 'O' && Map[i][j - 1] == 'L'){
+                        xmax = max(xmax, dp[i][j - 3] + 1);
+                    }
+                }
+            }
+            xmax = max(xmax, dp[i - 1][j]);
+            xmax = max(xmax, dp[i][j - 1]);
+            dp[i][j] = xmax;
+        }
+    }
+    cout << dp[N][N];
+}
