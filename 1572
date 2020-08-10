@@ -1,0 +1,71 @@
+#include <string>
+#include <iostream>
+#include <cmath>
+#include <queue>
+#include <vector>
+using namespace std;
+#define MAX 65536
+#define MOD 1000000007
+#define endl "\n"
+typedef long long ll;
+int i, j, x, y, k, N, M, T, K, W, V, temp;
+ll tree[MAX + 1];
+ll Arr[MAX + 1];
+ll Sum(ll* tree, int idx){
+    ll Result = 0;
+    while(idx){
+        Result = Result + tree[idx];
+        idx -= (idx & -idx);
+    }
+    return Result;
+}
+
+ll sum(ll *tree, int s, int e){
+    if(s > e)
+        return 0;
+    return Sum(tree, e) - Sum(tree, s - 1);
+}
+
+
+void update(ll* tree, int idx, int val){
+    while(idx <= MAX){
+        tree[idx] += val;
+        idx += (idx & -idx);
+    }
+}
+
+int getMid(){
+    int C = (K + 1) / 2;
+    int s = 0; int e = MAX;
+    int mid;
+    while(s < e){
+        mid = (s + e) / 2;
+        if(C > Sum(tree, mid))
+            s = mid + 1;
+        else
+            e = mid;
+    }
+    return s - 1;
+}
+int main(){
+    ios::sync_with_stdio(false);
+    cin.tie(NULL);
+    cout.tie(NULL);
+    cin >> N >> K;
+    ll ans = 0;
+    Arr[0] = 0;
+    for(int i = 1; i <= N; i++) {
+        cin >> temp;
+        temp++;
+        Arr[i] = temp;
+        update(tree, Arr[i], 1);
+        if(i < K)
+            continue;
+        else{
+            if(i != K)
+                update(tree, Arr[i - K], -1);
+            ans += getMid();
+        }
+    }
+    cout << ans;
+}
