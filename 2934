@@ -1,0 +1,47 @@
+#include <string>
+#include <iostream>
+#include <cmath>
+#include <queue>
+#include <vector>
+using namespace std;
+#define MAX 100010
+#define MOD 1000000007
+#define endl "\n"
+typedef long long ll;
+int i, j, x, y, z, k, N, M, T, K, W, V;
+int op, temp, tmp;
+ll tree[MAX + 1];
+
+
+void update(int idx, int val){
+    while(idx <= MAX){
+        tree[idx] += val;
+        idx += (idx & -idx);
+    }
+}
+
+ll sum(int idx){
+    ll ans = 0;
+    while(idx){
+        ans += tree[idx];
+        idx -= (idx & -idx);
+    }
+    return ans;
+}
+int main(){
+    ios::sync_with_stdio(false);
+    cin.tie(NULL);
+    cout.tie(NULL);
+    cin >> T;
+    while(T--){
+        cin >> x >> y;
+        N = sum(x);
+        M = sum(y);
+        cout << N + M << endl;
+        update(x, -N);
+        if(y != MAX)
+            update(y + 1, M);
+        update(x + 1, 1 + N);
+        update(y, -1 - M);
+    }
+}
