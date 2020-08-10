@@ -1,0 +1,30 @@
+#include <string>
+#include <iostream>
+#include <cmath>
+#include <queue>
+#include <vector>
+#include <algorithm>
+using namespace std;
+#define MAX 100010
+#define MOD 1000000007
+#define endl "\n"
+typedef long long ll;
+int i, j, x, y, z, k, N, M, T, K, W, V;
+int op, temp, tmp;
+int dp[MAX];
+
+int main(){
+    ios::sync_with_stdio(false);
+    cin.tie(NULL);
+    cout.tie(NULL);
+    cin >> N;
+
+    for(int i = 1; i <= 100000; i++){
+        int xmin = MAX;
+        for(int j = 1; j * j <= i; j++){
+            xmin = min(xmin, dp[i - j * j]  + 1);
+        }
+        dp[i] = xmin;
+    }
+    cout << dp[N];
+}
