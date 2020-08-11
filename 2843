@@ -1,0 +1,61 @@
+#include <bits/stdc++.h>
+using namespace std;
+#define MAX 300010
+#define endl "\n"
+int N, Q, pv = 0;
+int nxt[MAX];
+int chk[MAX];
+int par[MAX];
+int ans[MAX];
+
+vector<pair<int, int>> query;
+
+int find(int x){
+    if(x == par[x])
+        return x;
+    return par[x] = find(par[x]);
+}
+
+void merge(int u, int v){
+    u = find(u), v = find(v);
+    if(u == v)
+        par[u] = par[v] = 0;
+    else
+        par[u] = v;
+}
+
+
+
+
+int main(){
+    ios_base::sync_with_stdio(false);
+    cin.tie(NULL);
+    cout.tie(NULL);
+    cin >> N;
+    for(int i=1; i<=N; i++) {
+        par[i] = i;
+        cin >> nxt[i];
+    }
+    cin >> Q;
+    query.resize(Q+1);
+    for(int i = 1; i <= Q; i++){
+        cin >> query[i].first >> query[i].second;
+        if(query[i].first == 2)
+            chk[query[i].second] = 1; // 간선이 연결된다는 걸 미리 체크
+    }
+    for(int i=1; i<=N; i++){
+        if(!chk[i] && nxt[i]) // 간선이 있고, 이게 끝날때 가지 지워지지 않는다면.
+            merge(i, nxt[i]);
+    }
+    for(int i = Q; i >= 1; i--){
+        if(query[i].first == 1){
+            ans[++pv] = find(query[i].second);
+        }else{
+            merge(query[i].second, nxt[query[i].second]);
+        }
+    }
+    for(int i = pv; i >= 1; i--){ // query에 대해 역순된걸 다시 역순으로 출력
+        if(!ans[i]) cout << "CIKLUS" << endl;
+        else cout << ans[i] << endl;
+    }
+}
