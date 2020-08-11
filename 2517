@@ -1,0 +1,49 @@
+#include <string>
+#include <iostream>
+#include <queue>
+#include <algorithm>
+#include <map>
+using namespace std;
+#define MAX 500502
+#define MOD 1000000007
+#define endl "\n"
+typedef long long ll;
+int i, j, N, L, temp, tmp;
+int tree[MAX];
+int Arr[MAX];
+int pos[MAX];
+map<int, int> mp;
+void update(int idx, int val){
+    while(idx <= MAX){
+        tree[idx] += val;
+        idx += (idx & -idx);
+    }
+}
+
+ll sum(int idx){
+    ll result = 0;
+    while(idx){
+        result += tree[idx];
+        idx -= (idx & -idx);
+    }
+    return result;
+}
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(NULL);
+    cout.tie(NULL);
+    cin >> N;
+    for(int i = 1; i <= N; i++){
+        cin >> pos[i];
+        Arr[i] = pos[i];
+    }
+    sort(pos + 1, pos + N + 1);
+    for(int i = 1; i <= N; i++)
+        mp[pos[i]] = i;
+    for(int i = 1; i <= N; i++){
+        int curr = mp[Arr[i]];
+        cout << i - sum(curr) << endl;
+        update(curr, 1);
+    }
+
+}
