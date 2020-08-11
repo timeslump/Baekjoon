@@ -1,0 +1,46 @@
+#include <string>
+#include <iostream>
+#include <queue>
+#include <algorithm>
+#include <map>
+using namespace std;
+#define MAX 500502
+#define MOD 1000000007
+#define endl "\n"
+typedef long long ll;
+int i, j, N, L, temp, tmp, M;
+vector<int> v;
+int isPrime[4000010];
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(NULL);
+    cout.tie(NULL);
+    cin >> N;
+    for(int i = 2; i * i < 4000001; i++){
+        if(isPrime[i])
+            continue;
+        for(int j = 2; j * i < 4000001; j++){
+            isPrime[j * i] = true;
+        }
+    }
+
+    for(i = 2; i <= N; i++){
+        if(!isPrime[i])
+            v.push_back(i);
+    }
+
+    int s = 0, e = 0, ans = 0, sum = 0;
+    while(1){
+        if(sum >= N)
+            sum -= v[s++];
+        else if(e == v.size())
+            break;
+        else
+            sum += v[e++];
+        if(sum == N)
+            ans++;
+
+    }
+    cout << ans;
+}
