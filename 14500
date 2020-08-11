@@ -1,0 +1,71 @@
+#include<iostream>
+#include<string>
+#include<algorithm>
+#include<vector>
+#include<queue>
+#define endl "\n"
+using namespace std;
+
+int N, M;
+int Map[501][501];
+
+bool V[501][501];
+int ans = 0;
+int dx[4] = {0, 0, -1 , 1};
+int dy[4] = {1, -1, 0, 0};
+
+int sx[4][4] = {{0, 0, 0, 1}, {0, 1, 2, 1}, {0, 0, 0, -1}, {0, -1, 0, 1}};
+int sy[4][4] = {{0, 1, 2, 1}, {0, 0, 0, 1}, {0, 1, 2, 1}, {0, 1, 1, 1}};
+void dfs(int i, int j, int cnt, int sum){
+    if(cnt == 4){
+        ans = max(ans, sum);
+        return;
+    }
+    V[i][j] = true;
+    for(int k = 0; k < 4; k++){
+        int nx = i + dx[k];
+        int ny = j + dy[k];
+        if(nx < 0 || nx >= N || ny < 0 || ny >= M || V[nx][ny])
+            continue;
+        dfs(nx, ny, cnt + 1, sum + Map[nx][ny]);
+    }
+    V[i][j] = false;
+}
+
+void check(int x, int y){
+    for(int i = 0; i < 4; i++){
+        bool checker = true;
+        int sum = 0;
+        for(int k = 0; k < 4; k++){
+            int nx = x + sx[i][k];
+            int ny = y + sy[i][k];
+            if(nx < 0 || nx >= N || ny < 0 || ny >= M || V[nx][ny]){
+                checker = false;
+                break;
+            }
+            else{
+                sum += Map[nx][ny];
+            }
+        }
+        if(checker)
+            ans = max(ans, sum);
+    }
+}
+int main(){
+    ios::sync_with_stdio(false);
+    cin.tie(NULL);
+    cout.tie(NULL);
+    cin >> N >> M;
+    for(int i = 0; i < N; i++){
+        for(int j = 0; j < M; j++){
+            cin >> Map[i][j];
+        }
+    }
+    for(int i = 0; i < N; i++){
+        for(int j = 0; j < M; j++){
+            dfs(i, j, 1 , Map[i][j]);
+            check(i, j);
+        }
+    }
+    cout << ans;
+}
