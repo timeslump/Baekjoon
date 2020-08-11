@@ -1,0 +1,27 @@
+#include <string>
+#include <iostream>
+#include <queue>
+#include <algorithm>
+using namespace std;
+#define MAX 2001
+#define MOD 1000000007
+#define endl "\n"
+typedef long long ll;
+int i, j, N, L;
+char Map[510][510];
+
+int dp[511][511];
+
+int main() {
+    cin >> N >> L;
+    for(int i = L; i <= 100; i++){
+        int t = (i - 1) * i / 2;
+        if((N - t) / i >= 0 && (N - t) % i == 0){
+            int x = (N - t) / i;
+            for(int j = 0; j < i; j++)
+                cout << x + j << " ";
+            return 0;
+        }
+    }
+    cout << -1;
+}
