@@ -1,0 +1,26 @@
+#include <iostream>
+#include <deque>
+#include <algorithm>
+
+using namespace std;
+#define INT_MAX 987654321
+int N;
+int dp[100010];
+int main(){
+    cin >> N;
+    dp[2] = 1;
+    dp[4] = 2;
+    dp[5] = 1;
+    for(int i = 6; i <= N; i++){
+        int xmin = INT_MAX;
+        if(dp[i - 2])
+            xmin = min(xmin, dp[i - 2] + 1);
+        if(dp[i - 5])
+            xmin = min(xmin, dp[i - 5] + 1);
+        dp[i] = xmin;
+    }
+    if(dp[N])
+        cout << dp[N];
+    else
+        cout << -1;
+}
