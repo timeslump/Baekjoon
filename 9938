@@ -1,0 +1,51 @@
+#include <bits/stdc++.h>
+using namespace std;
+#define MAX 300010
+#define endl "\n"
+int N, Q, pv = 0;
+
+
+
+int p[MAX];
+int root[MAX];
+int find(int x){
+    if(x == p[x])
+        return x;
+    return p[x] = find(p[x]);
+}
+
+void merge(int u, int v) {
+    if(u != v)
+        p[u] = v;
+}
+
+int main(){
+    ios_base::sync_with_stdio(false);
+    cin.tie(NULL);
+    cout.tie(NULL);
+    int N, L;
+    cin >> N >> L;
+    for(int i = 1; i <= L; i++)
+        p[i] = i, root[i] = 1;
+    for(int i = 1; i <= N; i++){
+        int x, y;
+        cin >> x >> y;
+        x = find(x);
+        y = find(y);
+        if(root[x]){
+            root[x] -= 1;
+            merge(x, y);
+            root[y] += root[x];
+            cout << "LADICA" << endl;
+        }
+        else if(root[y]){
+            root[y] -= 1;
+            merge(y, x);
+            root[x] += root[y];
+            cout << "LADICA" << endl;
+        }
+        else{
+            cout << "SMECE" << endl;
+        }
+    }
+}
