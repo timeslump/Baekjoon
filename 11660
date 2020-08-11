@@ -1,0 +1,34 @@
+#include<iostream>
+#include<string>
+#include<algorithm>
+#include<vector>
+#include<queue>
+#define endl "\n"
+using namespace std;
+
+int N, M;
+int Map[1030][1030];
+int dp[1030][1030];
+int main(){
+    ios::sync_with_stdio(false);
+    cin.tie(NULL);
+    cout.tie(NULL);
+    cin >> N >> M;
+    for(int i = 1; i <= N; i++){
+        for(int j = 1; j <= N; j++){
+            cin >> Map[i][j];
+        }
+    }
+    for(int i = 1; i <= N; i++){
+        for(int j = 1; j <= N; j++){
+            dp[i][j] = dp[i - 1][j] + dp[i][j - 1] - dp[i - 1][j - 1] + Map[i][j];
+        }
+    }
+    while(M--){
+        int x1, x2, y1, y2;
+        cin >> x1 >> y1 >> x2 >> y2;
+        x1--;
+        y1--;
+        cout << dp[x2][y2] - dp[x1][y2] - dp[x2][y1] + dp[x1][y1] << endl;
+    }
+}
