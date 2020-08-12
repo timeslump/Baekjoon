@@ -1,0 +1,68 @@
+#include <bits/stdc++.h>
+
+using namespace std;
+
+int N, M;
+int dx[4] = {0, 0, 1, -1};
+int dy[4] = {1, -1, 0, 0};
+int Map[100][100];
+int Visit[100][100];
+bool V[100][100];
+struct info{
+    int x,y,cnt;
+    info(int a, int b, int c){
+        x = a;
+        y = b;
+        cnt = c;
+    }
+};
+int ans = INT_MAX;
+void bfs(){
+    queue<info> q;
+    info temp(0, 0, 0);
+    V[0][0] = true;
+    q.push(temp);
+    while(!q.empty()){
+        int x = q.front().x;
+        int y= q.front().y;
+        int cnt = q.front().cnt;
+        q.pop();
+        if(x == N - 1 && y == M - 1){
+            ans = min(ans, cnt);
+        }
+        for(int i = 0; i < 4; i++){
+            int nx = x + dx[i];
+            int ny = y + dy[i];
+            int tmp = cnt;
+            if(nx < 0 || ny < 0 || nx >= N || ny >= M)
+                continue;
+            if(Map[nx][ny] == 1)
+                tmp++;
+
+            if(!V[nx][ny]){
+                V[nx][ny] = true;
+                Visit[nx][ny] = tmp;
+            }
+            else{
+                if(Visit[nx][ny] > tmp) {
+                    Visit[nx][ny] = tmp;
+                }
+                else {
+                    continue;
+                }
+            }
+            info temp(nx, ny, tmp);
+            q.push(temp);
+        }
+    }
+}
+int main(){
+    cin >> M >> N;
+    for(int i = 0; i < N; i++){
+        for(int j = 0; j < M; j++){
+            scanf("%1d",&Map[i][j]);
+        }
+    }
+    bfs();
+    cout << ans;
+}
