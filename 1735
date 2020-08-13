@@ -1,0 +1,31 @@
+#include <bits/stdc++.h>
+using namespace std;
+#define MAX 100011
+vector<int> tree[MAX];
+int arr[MAX];
+
+int size;
+
+
+int gcd(int a, int b){
+    int c;
+    while(b != 0){
+        c = a % b;
+        a = b;
+        b = c;
+    }
+    return a;
+}
+
+int main(){
+    ios_base::sync_with_stdio(0);
+    cin.tie(0);
+    cout.tie(0);
+    int a, b;
+    int c, d;
+    cin >> a >> b >>c >> d;
+    int n = a * d + b * c;
+    int m = b * d;
+    int g = gcd(n, m);
+    cout << n / g << " " << m / g;
+}
