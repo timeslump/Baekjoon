@@ -1,0 +1,210 @@
+#include <bits/stdc++.h>
+using namespace std;
+#define MAX 100011
+#define endl "\n"
+
+
+char Map[10][10];
+int N, M;
+
+int xo, yo;
+int ans = 20;
+string anss;
+struct info{
+    int xr, yr, xb, yb;
+};
+bool check(int x, int y, int xx, int yy){
+    if(x == xx && y == yy)
+        return true;
+    return false;
+}
+
+void print(info a){
+    cout << endl;
+    cout << a.xr << " " << a.yr << endl;
+    cout << a.xb << " " << a.yb << endl;
+    cout << "----------------" << endl;
+}
+
+info up(info now) {
+    bool checker = (now.xr > now.xb);
+    while(Map[now.xb][now.yb] != '#') {
+        if (Map[now.xb][now.yb] == 'O')
+            break;
+        now.xb--;
+    }
+    if (Map[now.xb][now.yb] == '#')
+        now.xb++;
+
+    while (Map[now.xr][now.yr] != '#') {
+        if (Map[now.xr][now.yr] == 'O')
+            break;
+        now.xr--;
+    }
+    if (Map[now.xr][now.yr] == '#')
+        now.xr++;
+
+    if(!check(now.xr, now.yr, xo, yo)){
+        if(check(now.xr, now.yr, now.xb, now.yb)){
+            if(checker)
+                now.xr++;
+            else
+                now.xb++;
+        }
+    }
+    return now;
+}
+
+
+info down(info now) {
+    bool checker = (now.xr > now.xb);
+    while (Map[now.xr][now.yr] != '#') {
+        if (Map[now.xr][now.yr] == 'O')
+            break;
+        now.xr++;
+    }
+    if (Map[now.xr][now.yr] == '#')
+        now.xr--;
+
+    while (Map[now.xb][now.yb] != '#') {
+        if (Map[now.xb][now.yb] == 'O')
+            break;
+        now.xb++;
+    }
+    if (Map[now.xb][now.yb] == '#')
+        now.xb--;
+    if(!check(now.xr, now.yr, xo, yo)){
+        if(check(now.xr, now.yr, now.xb, now.yb)){
+            if(checker)
+                now.xb--;
+            else
+                now.xr--;
+        }
+    }
+    return now;
+}
+
+info right(info now) {
+    bool checker = now.yr > now.yb;
+    while (Map[now.xr][now.yr] != '#') {
+        if (Map[now.xr][now.yr] == 'O')
+            break;
+        now.yr++;
+    }
+    if(Map[now.xr][now.yr] == '#')
+        now.yr--;
+
+    while (Map[now.xb][now.yb] != '#') {
+        if (Map[now.xb][now.yb] == 'O')
+            break;
+        now.yb++;
+    }
+    if(Map[now.xb][now.yb] == '#')
+        now.yb--;
+
+    if(!check(now.xr, now.yr, xo, yo)){
+        if(check(now.xr, now.yr, now.xb, now.yb)){
+            if(checker)
+                now.yb--;
+            else
+                now.yr--;
+        }
+    }
+    return now;
+}
+
+info left(info now) {
+    bool checker = now.yr > now.yb;
+    while (Map[now.xb][now.yb] != '#') {
+        if (Map[now.xb][now.yb] == 'O')
+            break;
+        now.yb--;
+    }
+    if(Map[now.xb][now.yb] == '#')
+        now.yb++;
+
+    while (Map[now.xr][now.yr] != '#') {
+        if (Map[now.xr][now.yr] == 'O')
+            break;
+        now.yr--;
+    }
+
+    if(Map[now.xr][now.yr] == '#')
+        now.yr++;
+
+    if (!check(now.xr, now.yr, xo, yo)) {
+        if (check(now.xr, now.yr, now.xb, now.yb)) {
+            if (checker)
+                now.yr++;
+            else
+                now.yb++;
+        }
+    }
+    return now;
+}
+
+
+void dfs(int n, info now, string s){
+
+    if(n > 10 || (now.xb == xo && now.yb == yo) || ans < n){
+        return;
+    }
+    if(now.xr == xo && now.yr == yo){
+        if(ans > n){
+            ans = n;
+            anss = s;
+        }
+        return;
+    }
+    info test = up(now);
+    if(!(check(test.xr, test.yr, now.xr, now.yr) && check(test.xb, test.yb, now.xb, now.yb)))
+        dfs(n + 1, test, s + "U");
+
+    test = down(now);
+    if(!(check(test.xr, test.yr, now.xr, now.yr) && check(test.xb, test.yb, now.xb, now.yb)))
+        dfs(n + 1, test, s + "D");
+
+
+    test = left(now);
+    if(!(check(test.xr, test.yr, now.xr, now.yr) && check(test.xb, test.yb, now.xb, now.yb)))
+        dfs(n + 1,test, s + "L");
+
+
+    test = right(now);
+    if(!(check(test.xr, test.yr, now.xr, now.yr) && check(test.xb, test.yb, now.xb, now.yb)))
+        dfs(n + 1, test, s + "R");
+
+
+}
+int main(){
+    ios_base::sync_with_stdio(0);
+    cin.tie(0);
+    cout.tie(0);
+    info first;
+    cin >> N >> M;
+    for(int i = 0; i < N; i++){
+        for(int j = 0; j < M; j++){
+            cin >> Map[i][j];
+            if(Map[i][j] == 'R'){
+                first.xr = i;
+                first.yr = j;
+            }
+            if(Map[i][j] == 'B'){
+                first.xb = i;
+                first.yb = j;
+            }
+            if(Map[i][j] == 'O'){
+                xo = i;
+                yo = j;
+            }
+        }
+    }
+    dfs(0, first, "");
+    if(ans != 20) {
+        cout << ans << endl;
+        cout << anss;
+    }
+    else
+        cout << -1;
+    return 0;
+}
