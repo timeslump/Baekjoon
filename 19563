@@ -1,0 +1,20 @@
+#include <bits/stdc++.h>
+
+using namespace std;
+#define endl "\n"
+
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(NULL);
+    cout.tie(NULL);
+    int a, b, c;
+    cin >> a >> b >> c;
+    a = abs(a);
+    b = abs(b);
+    int d = a + b;
+    if(d > c || (d - c) % 2)
+        cout << "NO";
+    else
+        cout << "YES";
+}
