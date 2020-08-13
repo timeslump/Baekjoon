@@ -1,0 +1,29 @@
+#include <bits/stdc++.h>
+
+using namespace std;
+#define endl "\n"
+
+bool arr[1010];
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(NULL);
+    cout.tie(NULL);
+    arr[1] = true;
+    for(int i = 2; i * i <= 1000; i++){
+        if(arr[i])
+            continue;
+        int j = 2;
+        while(i * j <= 1000)
+            arr[i * j++] = true;
+    }
+    int N;
+    cin >> N;
+    int ans = 0;
+    while(N--){
+        int tmp;
+        cin >> tmp;
+        if(!arr[tmp])
+            ans++;
+    }
+    cout << ans;
+}
