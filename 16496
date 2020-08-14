@@ -1,0 +1,36 @@
+#include <bits/stdc++.h>
+#include <map>
+using namespace std;
+#define endl "\n"
+typedef long long ll;
+ll N, M;
+
+vector<string> v;
+
+bool cmp(string a, string b){
+    string aa = a + b;
+    string bb = b+ a;
+    if(aa > bb)
+        return true;
+    else
+        return false;
+}
+int main(){
+    ios::sync_with_stdio(false);
+    cin.tie(0);
+    cout.tie(0);
+    cin >> N;
+    while(N--){
+        string s;
+        cin >> s;
+        v.push_back(s);
+    }
+    sort(v.begin(), v.end(), cmp);
+    string ans = "";
+    for(int i = 0; i < v.size(); i++)
+        ans += v[i];
+    if(ans[0] == '0')
+        cout << 0;
+    else
+        cout << ans;
+}
