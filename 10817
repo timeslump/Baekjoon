@@ -1,0 +1,16 @@
+#include <bits/stdc++.h>
+#include <map>
+using namespace std;
+#define endl "\n"
+
+int main(){
+    ios::sync_with_stdio(false);
+    cin.tie(0);
+    cout.tie(0);
+    int a[3];
+    int n = 2;
+    while(n >= 0)
+        cin >> a[n--];
+    sort(a, a + 3);
+    cout << a[1];
+}
