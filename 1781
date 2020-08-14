@@ -1,0 +1,51 @@
+#include <bits/stdc++.h>
+#include <map>
+using namespace std;
+#define endl "\n"
+
+vector<int> v[200001];
+int main(){
+    ios::sync_with_stdio(false);
+    cin.tie(0);
+    cout.tie(0);
+    int N;
+    cin >> N;
+    while(N--){
+        int a, b;
+        cin >> a >> b;
+        v[a].push_back(b);
+    }
+    priority_queue<int, vector<int> ,greater<int>> q;
+    for(int i = 1; i <= 200001; i++)
+        sort(v[i].begin(), v[i].end());
+    int p = 0;
+    for(int i = 1; i <= 200001; i++){
+        if(v[i].size() == 0)
+            p++;
+        else {
+            for (int j = v[i].size() - 1; j >= 0; j--) {
+                if (j == v[i].size() - 1 ) {
+                    q.push(v[i][j]);
+                }
+                else if(p){
+                    q.push(v[i][j]);
+                    p--;
+                }
+                else {
+                    if (q.top() < v[i][j]) {
+                        q.pop();
+                        q.push(v[i][j]);
+                    } else {
+                        break;
+                    }
+                }
+            }
+        }
+    }
+    long long sum = 0;
+    while(!q.empty()){
+        sum += q.top();
+        q.pop();
+    }
+    cout << sum;
+}
