@@ -1,0 +1,40 @@
+#include <bits/stdc++.h>
+#include <map>
+using namespace std;
+#define endl "\n"
+
+int N, M;
+vector<int> v;
+int main(){
+    ios::sync_with_stdio(false);
+    cin.tie(0);
+    cout.tie(0);
+    cin >> N >> M;
+    for(int i = 0; i < N; i++){
+        string s;
+        cin >> s;
+        int num = 0;
+        for(int i = 0; i < s.size(); i++){
+            num = num | (1 << (s[i] - 'a'));
+        }
+        v.push_back(num);
+    }
+    int checker = 0;
+    for(int i = 0; i < 26; i++){
+        checker = checker | (1 << i);
+    }
+    while(M--){
+        int op; char x;
+        cin >> op >> x;
+        if(op == 1)
+            checker = checker & ~(1 << (x - 'a'));
+        else
+            checker = checker | 1 << (x - 'a');
+        int cnt = 0;
+        for(auto& vv : v){
+            if((vv & checker) == vv)
+                cnt++;
+        }
+        cout << cnt << endl;
+    }
+}
