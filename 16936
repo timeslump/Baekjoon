@@ -1,0 +1,52 @@
+#include <bits/stdc++.h>
+#include <map>
+using namespace std;
+#define endl "\n"
+typedef long long ll;
+ll N, M;
+
+vector<ll> v;
+bool check[101];
+void dfs(int n, vector<ll> tv){
+    if(n == N){
+        for(auto& w: tv)
+            cout << w << " ";
+        return;
+    }
+    for(int i = 0 ; i < v.size(); i++) {
+        if(tv[tv.size() - 1] * 2 == v[i] && !check[i]){
+            check[i] = true;
+            tv.push_back(v[i]);
+            dfs(n + 1, tv);
+            check[i] = false;
+            tv.pop_back();
+        }
+        else if(tv[tv.size() - 1] % 3 == 0 && tv[tv.size() - 1] / 3 == v[i] && !check[i]){
+            check[i] = true;
+            tv.push_back(v[i]);
+            dfs(n + 1, tv);
+            check[i] = false;
+            tv.pop_back();
+        }
+    }
+}
+
+int main(){
+    ios::sync_with_stdio(false);
+    cin.tie(0);
+    cout.tie(0);
+    cin >> N;
+    ll temp = N;
+    while(temp--){
+        ll tmp;
+        cin >> tmp;
+        v.push_back(tmp);
+    }
+    for(int i = 0 ; i < v.size(); i++) {
+        vector<ll> tempvec;
+        check[i] = true;
+        tempvec.push_back(v[i]);
+        dfs(1, tempvec);
+        check[i] = false;
+    }
+}
