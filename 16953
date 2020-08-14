@@ -1,0 +1,43 @@
+#include <bits/stdc++.h>
+#include <map>
+using namespace std;
+#define endl "\n"
+typedef long long ll;
+ll N, M;
+ll cnt = 0;
+bool check = false;
+map<ll, bool> m;
+void bfs(){
+    queue<ll> q;
+    q.push(N);
+    while(!q.empty()){
+        ll qs = q.size();
+        while(qs--){
+            ll x = q.front();
+            m[x] = true;
+            q.pop();
+            if(x > M)
+                continue;
+            if(x == M) {
+                check = true;
+                return;
+            }
+            if(!m[x * 2])
+                q.push(x * 2);
+            if(!m[x * 10 + 1])
+                q.push(x * 10 + 1);
+        }
+        cnt++;
+    }
+}
+int main(){
+    ios::sync_with_stdio(false);
+    cin.tie(0);
+    cout.tie(0);
+    cin >> N >> M;
+    bfs();
+    if(check)
+        cout << cnt + 1;
+    else
+        cout << -1;
+}
