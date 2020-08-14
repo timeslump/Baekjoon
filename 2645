@@ -1,0 +1,115 @@
+#include <bits/stdc++.h>
+#include <map>
+using namespace std;
+#define endl "\n"
+typedef long long ll;
+ll N;
+int Map[51][51], dist[51][51];
+pair<int, int> path[51][51];
+int Xs, Ys, Xh, Yh;
+int k;
+int dx[4] = {1, 0, - 1, 0};
+int dy[4] = {0, 1, 0, -1};
+void make(int x, int y, int xx, int yy){
+    if(x == xx){
+        if(y > yy)
+            swap(y, yy);
+        while(y <= yy){
+            Map[x][y] = k;
+            y++;
+        }
+    }
+    else{
+        if(x > xx)
+            swap(x, xx);
+        while(x <= xx){
+            Map[x][y] = k;
+            x++;
+        }
+    }
+}
+void dijkstra(){
+    priority_queue<pair<int, pair<int, int>>> pq;
+    dist[Xs][Ys] = Map[Xs][Ys];
+    pq.push({-dist[Xs][Ys], {Xs, Ys}});
+    while(!pq.empty()){
+        int x = pq.top().second.first;
+        int y = pq.top().second.second;
+        int sum = -pq.top().first;
+        pq.pop();
+        if(sum > dist[x][y]) // 같은 위치에 떠 왔을 수도 있다.
+            continue;
+        for(int i = 0; i < 4; i++){
+            int nx = x + dx[i];
+            int ny = y + dy[i];
+            if(nx < 1 || nx > N || ny < 1|| ny > N || dist[nx][ny] <= sum + Map[nx][ny])
+                continue;
+            dist[nx][ny] = sum + Map[nx][ny];
+            path[nx][ny] = {x, y};
+            pq.push({-dist[nx][ny], {nx, ny}});
+        }
+    }
+}
+
+int dir(int x, int y, int xx, int yy){
+    if(x > xx)
+        return 1;
+    else if(x < xx)
+        return 2;
+    else if(y > yy)
+        return 3;
+    else
+        return 4;
+}
+
+int main(){
+    ios::sync_with_stdio(false);
+    cin.tie(0);
+    cout.tie(0);
+    cin >> N;
+    for(int i = 1; i <= N; i++){
+        for(int j = 1; j <= N; j++){
+            Map[i][j] = 1;
+            dist[i][j] = INT_MAX;
+        }
+    }
+    cin >> Xs >> Ys >> Xh >> Yh;
+    cin >> k;
+    int temp;
+    cin >> temp;
+    while(temp--){
+        int c;
+        cin >> c;
+        int fx, fy, x, y;
+        cin >> x >> y;
+        c--;
+        while(c--) {
+            fx = x;
+            fy = y;
+            cin >> x >> y;
+            make(fx, fy, x, y);
+        }
+    }
+    dijkstra();
+
+    cout << dist[Xh][Yh] << endl;
+    int x = Xh;
+    int y = Yh;
+    vector<pair<int, int>> v;
+    v.push_back({x, y});
+    int direct = dir(x, y, path[x][y].first, path[x][y].second);
+    int fx, fy;
+    while(!(x == Xs && y == Ys)){
+        fx = x; fy = y;
+        x = path[fx][fy].first;
+        y = path[fx][fy].second;
+        if(direct != dir(fx, fy, x, y)){
+            v.push_back({fx, fy});
+            direct = dir(fx, fy, x, y);
+        }
+    }
+    v.push_back({x, y});
+    cout << v.size() << " ";
+    for(int i = v.size() - 1; i >= 0; i--)
+        cout << v[i].first << " " << v[i].second << " ";
+}
