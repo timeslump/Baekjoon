@@ -1,0 +1,36 @@
+#include <bits/stdc++.h>
+#include <map>
+using namespace std;
+#define endl "\n"
+typedef long long ll;
+ll N, M;
+
+vector<pair<int, int>> v;
+
+bool checker[200001];
+int main(){
+    cin.tie(0);
+    ios::sync_with_stdio(false);
+    cout.tie(0);
+    cin >> N;
+    for(int i = 0; i < N; i++){
+        int a, b;
+        cin >> a >> b;
+        v.push_back({a, b});
+    }
+    sort(v.begin(), v.end());
+    priority_queue<int, vector<int>, greater<int>> pq;
+    pq.push(v[0].second);
+    int s, e;
+    for(int i = 1; i < N; i++){
+        s = v[i].first;
+        e = v[i].second;
+        if(pq.top() > s)
+            pq.push(e);
+        else{
+            pq.pop();
+            pq.push(e);
+        }
+    }
+    cout << pq.size();
+}
