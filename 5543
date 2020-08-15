@@ -1,0 +1,27 @@
+#include <bits/stdc++.h>
+#include <map>
+using namespace std;
+#define endl "\n"
+typedef long long ll;
+ll N, M;
+
+vector<pair<int, int>> v;
+bool cmp(pair<int, int> a, pair<int, int> b){
+    if(a.second == b.second)
+        return a.first < b.first;
+    else
+        return a.second < b.second;
+}
+// 시간초과날듯
+bool checker[200001];
+int main(){
+    cin.tie(0);
+    ios::sync_with_stdio(false);
+    cout.tie(0);
+    int a,b,c,d,e;
+    cin >> a >> b >> c >> d >> e;
+    a = min(a, b);
+    a = min(a, c);
+    d = min(d, e);
+    cout << a + d - 50;
+}
