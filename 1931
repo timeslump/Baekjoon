@@ -1,0 +1,36 @@
+#include <string>
+#include <vector>
+#include <deque>
+#include <bits/stdc++.h>
+using namespace std;
+
+int N;
+bool cmp(pair<int, int> a, pair<int, int> b){
+    if(a.second == b.second)
+        return a.first < b.first;
+    else
+        return a.second < b.second;
+}
+int main(){
+    cin >> N;
+    int temp = N;
+    vector<pair<int, int>> v;
+    while(temp--){
+        int a, b;
+        cin >> a >> b;
+        v.push_back({a, b});
+    }
+    sort(v.begin(), v.end(), cmp);
+    int now = v[0].second;
+    int ans = 1;
+    for(int i = 1; i < N; i++){
+        int s = v[i].first;
+        int e = v[i].second;
+        if(s >= now){
+            now = e;
+            ans++;
+        }
+    }
+    cout << ans << endl;
+}
+
