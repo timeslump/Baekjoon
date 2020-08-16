@@ -1,0 +1,23 @@
+#include <string>
+#include <vector>
+#include <deque>
+#include <bits/stdc++.h>
+using namespace std;
+
+#define endl "\n"
+typedef long long ll;
+int N, M;
+vector<int> v;
+int main(){
+    ios::sync_with_stdio(false);
+    cin.tie(NULL);
+    cout.tie(NULL);
+    cin >> N;
+    while(N--){
+        cin >> M;
+        v.push_back(M);
+    }
+    sort(v.begin(), v.end());
+    cout << v[0] << " " << v[v.size() - 1];
+}
+
