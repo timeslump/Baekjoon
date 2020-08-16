@@ -1,0 +1,29 @@
+#include <string>
+#include <vector>
+#include <deque>
+#include <bits/stdc++.h>
+using namespace std;
+
+#define endl "\n"
+typedef long long ll;
+int N, M;
+int last[1002];
+int sum[1000001];
+int main(){
+    ios::sync_with_stdio(false);
+    cin.tie(NULL);
+    cout.tie(NULL);
+    cin >> N >> M;
+    for(int i = 1; i <= N; i++){
+        cin >> sum[i];
+        sum[i] = (sum[i] + sum[i - 1]) % M;
+        last[sum[i]]++;
+    }
+    ll ans = 0;
+    for(int i = 0; i < M; i++){
+        ans +=  ((ll)  (last[i] - 1) * last[i]) / 2;
+    }
+    ans += last[0];
+    cout << ans;
+}
+
