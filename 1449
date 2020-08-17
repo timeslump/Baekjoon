@@ -1,0 +1,38 @@
+#include <string>
+#include <vector>
+#include <deque>
+#include <bits/stdc++.h>
+using namespace std;
+
+#define endl "\n"
+#define MOD (10e9 + 7)
+typedef long long ll;
+int N, M, K, L;
+vector<int> up;
+vector<int> down;
+
+bool check[1001];
+int main(){
+    ios::sync_with_stdio(false);
+    cin.tie(NULL);
+    cout.tie(NULL);
+    cin >> N >> L;
+    L--;
+    while(N--){
+        cin >> M;
+        check[M] = true;
+    }
+    int ans = 0;
+    for(int i = 1; i <= 1000; i++){
+        if(check[i] == false)
+            continue;
+        else{
+            for(int j = 0; j <= L; j++)
+                check[i + j] = false;
+            ans++;
+        }
+
+    }
+    cout << ans;
+}
+
