@@ -1,0 +1,29 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+#define endl "\n";
+map<string, bool> m;
+
+int main(){
+    ios::sync_with_stdio(0);cin.tie(0);cout.tie(0);
+    int n, M, ans = 0;
+    cin >> n >> M;
+
+    string s;
+    while(n--){
+        cin >> s;
+        m[s] = true;
+    }
+    vector<string> a;
+    while(M--){
+        cin >> s;
+        if(m[s]){
+            a.push_back(s);
+            ans++;
+        }
+    }
+    sort(a.begin(), a.end());
+    cout << a.size() << endl;
+    for(auto ans : a)
+        cout << ans << endl;
+}
