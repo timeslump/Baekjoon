@@ -1,0 +1,52 @@
+#include<bits/stdc++.h>
+
+using namespace std;
+#define endl "\n"
+
+map<pair<int,int>, bool> m;
+map<pair<int,int>, bool> v;
+
+int N, Y;
+int ans = 0;
+void bfs(){
+    queue<pair<int, int>> q;
+    q.push({0, 0});
+    v[{0,0}] = true;
+    while(!q.empty()){
+        int qs = q.size();
+        while(qs--){
+            int x = q.front().first;
+            int y = q.front().second;
+            if(y >= Y) {
+                cout << ans;
+                return;
+            }
+            q.pop();
+            for(int i = -2; i <= 2; i++){
+                for(int j = -2; j <= 2; j++){
+                    int nx = x + i;
+                    int ny = y + j;
+                    if(!m[{nx,ny}] || v[{nx, ny}])
+                        continue;
+                    v[{nx, ny}] = true;
+                    q.push({nx, ny});
+                }
+            }
+        }
+        ans++;
+    }
+    cout << -1;
+
+}
+int main(){
+    ios::sync_with_stdio(0);
+    cin.tie(0);
+    cout.tie(0);
+    cin >> N >> Y;
+    while(N--){
+        int x, y;
+        cin >> x >> y;
+        m[{x,y}] = true;
+    }
+    bfs();
+}
