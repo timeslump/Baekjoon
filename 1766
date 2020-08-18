@@ -1,0 +1,40 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+#define endl "\n";
+
+
+int N, M, K, W;
+const int Mxn = 10e3;
+
+vector<int> in, ans;
+vector<vector<int>> v;
+int main() {
+    ios::sync_with_stdio(0);
+    cin.tie(0);
+    cout.tie(0);
+    int N, M;
+    cin >> N >> M;
+    v.resize(N + 1);
+    in.resize(N + 1);
+    while(M--){
+        int x, y;
+        cin >> x >> y;
+        v[x].push_back(y);
+        in[y]++;
+    }
+    priority_queue<int, vector<int>, greater<int>> q;
+    for(int i = 1; i <= N; i++){
+        if(!in[i])
+            q.push(i);
+    }
+    while(N--){
+        int x = q.top();
+        q.pop();
+        cout << x << " ";
+        for(auto y : v[x]){
+            if(--in[y] == 0)
+                q.push(y);
+        }
+    }
+}
