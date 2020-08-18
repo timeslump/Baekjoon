@@ -1,0 +1,51 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+#define endl "\n";
+
+
+int N, M;
+vector<int> arr[1001];
+int in[1001];
+int ans[1001];
+int main() {
+    ios::sync_with_stdio(0);
+    cin.tie(0);
+    cout.tie(0);
+    cin >> N >> M;
+    while(M--){
+        int edge_num;
+        cin >> edge_num;
+        if(!edge_num)
+            continue;
+        int s, e;
+        cin >> s;
+        edge_num -= 1;
+        while(edge_num--){
+            cin >> e;
+            arr[s].push_back(e);
+            in[e]++;
+            s = e;
+        }
+    }
+    queue<int> q;
+    for(int i = 1; i <= N; i++){
+        if(!in[i])
+            q.push(i);
+    }
+    for(int i = 0; i < N; i++){
+        if(q.empty()){
+            cout << 0;
+            return 0;
+        }
+        int x = q.front();
+        ans[i] = x;
+        q.pop();
+        for(auto here : arr[x]){
+            if(--in[here] == 0)
+                q.push(here);
+        }
+    }
+    for(int i = 0; i < N; i++)
+        cout << ans[i] << endl;
+}
