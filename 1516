@@ -1,0 +1,51 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+#define endl "\n";
+
+
+int N, M, K, W;
+const int Mxn = 10e3;
+
+vector<int> in, t, ans;
+vector<vector<int>> v;
+int main() {
+    ios::sync_with_stdio(0);
+    cin.tie(0);
+    cout.tie(0);
+    int N;
+    cin >> N;
+    v.resize(N + 1);
+    in.resize(N + 1);
+    t.resize(N + 1);
+    ans.resize(N + 1);
+
+    for(int i = 1; i <= N; i++){
+        int build_time, y;
+        cin >> build_time >> y;
+        t[i] = build_time;
+        while(y != - 1){
+            v[y].push_back(i);
+            in[i]++;
+            cin >> y;
+        }
+    }
+    priority_queue<int, vector<int>, greater<int>> q;
+    for(int i = 1; i <= N; i++){
+        if(!in[i]) {
+            q.push(i);
+            ans[i] = t[i];
+        }
+    }
+    for(int i = 0; i <= N; i++){
+        int x = q.top();
+        q.pop();
+        for(auto y : v[x]){
+            if(--in[y] == 0)
+                q.push(y);
+            ans[y] = max(ans[y], ans[x] + t[y]);
+        }
+    }
+    for(int i = 1; i <= N; i++)
+        cout << ans[i] << endl;
+}
