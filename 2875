@@ -1,0 +1,17 @@
+#include<iostream>
+using namespace std;
+int main() {
+    int N, M, K;
+    int ans;
+    cin >> N >> M >> K;
+    if(N > M * 2)
+        ans = M;
+    else
+        ans = N / 2;
+    K = K - (N - ans * 2) - (M - ans);
+    while(K > 0){
+        ans--;
+        K = K - 3;
+    }
+    cout << ans;
+}
