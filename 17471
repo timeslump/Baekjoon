@@ -1,0 +1,55 @@
+] = 0;
+            break;
+        }
+    }
+    int cnt = pop[i];
+    q.push(i);
+    while(!q.empty()){
+        int x = q.front();
+        q.pop();
+        for(int i = 0; i < v[x].size(); i++){
+            if(check[v[x][i]] == X) {
+                q.push(v[x][i]);
+                check[v[x][i]] = 0;
+                cnt += pop[v[x][i]];
+            }
+        }
+    }
+    return cnt;
+}
+int main(){
+    ios::sync_with_stdio(0);
+    cin.tie(0);
+    cin >> N;
+    for(int i = 1; i <= N; i++)
+        cin >> pop[i];
+    for(int i = 1; i <= N; i++){
+        cin >> T;
+        while(T--){
+            int temp;
+            cin >> temp;
+            v[i].push_back(temp);
+        }
+    }
+    int Max = 987654321;
+    for(int i = 1; i < (1 << N) - 1; i++){
+        for(int k = 1; k <= N; k++)
+            check[k] = 1;
+        for(int j = 0; j < N; j++){
+            if(i & (1 << j))
+                check[j + 1] = 2;
+        }
+        int ans = abs(bfs(2) - bfs(1));
+        bool checker = true;
+        for(int k = 1; k <= N; k++){
+            if(check[k])
+                checker = false;
+        }
+        if(checker)
+            Max = min(Max, ans);
+    }
+    if(Max == 987654321)
+        cout << -1;
+    else
+        cout << Max;
+}
