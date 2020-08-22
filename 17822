@@ -1,0 +1,91 @@
+#include<bits/stdc++.h>
+using namespace std;
+#define long long ll;
+
+int Map[52][52];
+int N, M, T;
+
+int d[2] = {1, -1};
+int dx[4] = {0, 1, -1, 0};
+int dy[4] = {1, 0, 0, -1};
+int cnt, sum;
+void move(int x, int m, int k){
+    int temp[51];
+    for(int j = 0; j < M ; j++){
+        int newj = j + d[m] * k + M;
+        temp[newj % M] = Map[x][j];
+    }
+    for(int j = 0; j < M; j++)
+        Map[x][j] = temp[j];
+}
+void Sum(){
+    for(int i = 1; i <= N; i++){
+        for(int j = 0; j < M; j++) {
+            if(Map[i][j]) {
+                sum += Map[i][j];
+                cnt++;
+            }
+        }
+    }
+}
+void Solve(int x, int m, int k){
+    for(int i = x; i <= N; i+= x)
+        move(i, m, k);
+    bool same = false;
+    int temp[52][52];
+    copy(&Map[0][0], &Map[N + 1][M], &temp[0][0]);
+    for(int i = 1; i <= N; i++){
+        for(int j = 0; j < M; j++){
+            if(Map[i][j]) {
+                for (int k = 0; k < 4; k++) {
+                    int ni = i + dx[k];
+                    int nj = j + dy[k];
+                    if (ni < 1 || ni > N || nj < 0)
+                        continue;
+                    if (nj == M)
+                        nj = 0;
+                    if (Map[ni][nj] == Map[i][j]) {
+                        same = true;
+                        temp[ni][nj] = 0;
+                        temp[i][j] = 0;
+                    }
+                }
+            }
+        }
+    }
+    copy(&temp[0][0], &temp[N + 1][M], &Map[0][0]);
+    if(!same){
+        cnt = 0, sum = 0;
+        Sum();
+        double avg = (double) sum / cnt;
+        for(int i = 1; i <= N; i++){
+            for(int j = 0; j < M; j++) {
+                if (Map[i][j]) {
+                    if (Map[i][j] < avg)
+                        Map[i][j]++;
+                    else if (Map[i][j] > avg)
+                        Map[i][j]--;
+                }
+            }
+        }
+    }
+}
+
+int main(){
+    ios::sync_with_stdio(0);
+    cin.tie(0);
+    cin  >> N >> M >> T;
+    for(int i = 1; i <= N; i++){
+        for(int j = 0; j < M; j++){
+            cin >> Map[i][j];
+        }
+    }
+    while(T--){
+        int x, m, k;
+        cin >> x >> m >> k;
+        Solve(x, m, k);
+    }
+    sum = 0;
+    Sum();
+    cout << sum << endl;
+}
