@@ -1,0 +1,31 @@
+#include<bits/stdc++.h>
+using namespace std;
+#define long long ll
+#define endl "\n"
+typedef pair<int, int> P;
+int T;
+int main(){
+    ios::sync_with_stdio(0);
+    cin.tie(0);
+
+    cin >> T;
+    string s;
+    getline(cin, s);
+    while(T--){
+        getline(cin, s);
+        int b = 0, g = 0;
+        for(auto a : s){
+            if(a == 'g' || a == 'G')
+                g++;
+            if(a == 'B' || a == 'b')
+                b++;
+        }
+        if(b > g)
+            s = s + " is A BADDY";
+        else if(b < g)
+            s = s + " is GOOD";
+        else
+            s = s + " is NEUTRAL";
+        cout << s << endl;
+    }
+}
