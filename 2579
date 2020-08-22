@@ -1,0 +1,23 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+int main(){
+    ios::sync_with_stdio(0);
+    cin.tie(0);
+    vector<int> dp;
+    vector<int> v;
+    int N;
+    cin >> N;
+    v.resize(N + 1);
+    dp.resize(N + + 1);
+    for(int i = 1; i <= N; i++)
+        cin >> v[i];
+    dp[1] = v[1];
+    dp[2] = v[1] + v[2];
+    dp[3] = max(v[1] + v[3], v[3] + v[2]);
+    for(int i = 4;i<= N;i++) {
+        dp[i] = max(dp[i - 2] + v[i], v[i - 1] + v[i] + dp[i - 3]);
+    }
+
+    cout << dp[N] << endl;
+}
