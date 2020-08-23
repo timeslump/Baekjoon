@@ -1,0 +1,47 @@
+#include<bits/stdc++.h>
+#define endl "\n"
+using namespace std;
+
+int T, N;
+int dx[8] = {2 ,1 ,-1, -2, 2, 1, -1 , -2};
+int dy[8] = {1, 2, -2, -1, -1, -2, 2, 1};
+bool Map[301][301];
+int Xs, Ys, Xh, Yh;
+int bfs(){
+    int cnt = 0;
+    queue<pair<int, int>> q;
+    q.push({Xs, Ys});
+    Map[Xs][Ys] = true;
+    while(!q.empty()){
+        int qs = q.size();
+        while(qs--){
+            int x = q.front().first;
+            int y = q.front().second;
+            q.pop();
+            if(x == Xh && y == Yh)
+                return cnt;
+            for(int i = 0; i < 8; i++){
+                int nx = x + dx[i];
+                int ny = y + dy[i];
+                if(Map[nx][ny] || nx < 0 || nx >= N || ny < 0 || ny >= N)
+                    continue;
+                Map[nx][ny] = true;
+                q.push({nx, ny});
+            }
+        }
+        cnt++;
+    }
+    return cnt;
+}
+int main(){
+    ios::sync_with_stdio(0);
+    cin.tie(0);
+    cin >> T;
+    while(T--){
+        fill(&Map[0][0], &Map[0][0] + 301 * 301, 0);
+        cin >> N;
+        cin >> Xs >> Ys;
+        cin >> Xh >> Yh;
+        cout << bfs() << endl;
+    }
+}
