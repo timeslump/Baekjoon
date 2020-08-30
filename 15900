@@ -1,0 +1,37 @@
+#include<bits/stdc++.h>
+
+using namespace std;
+
+int N;
+vector<int> v[500001];
+bool visit[500001];
+long long cnt = 0;
+void dfs(int x, int height){
+    visit[x] = true;
+    for(int i = 0; i < v[x].size(); i++){
+        if(visit[v[x][i]])
+            continue;
+        dfs(v[x][i], height + 1);
+    }
+    if(v[x].size() == 1)
+        cnt += height;
+    visit[x] = false;
+}
+int main(){
+    ios::sync_with_stdio(0);
+    cin.tie(0);
+    cout.tie(0);
+    cin >> N;
+    int tmp = N - 1;
+    while(tmp--){
+        int x, y;
+        cin >> x >> y;
+        v[x].push_back(y);
+        v[y].push_back(x);
+    }
+    dfs(1, 0);
+    if(cnt % 2)
+        cout << "Yes";
+    else
+        cout << "No";
+}
