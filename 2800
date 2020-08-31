@@ -1,0 +1,47 @@
+#include<bits/stdc++.h>
+
+using namespace std;
+
+
+#define endl "\n"
+
+bool check[201];
+
+int main(){
+    ios::sync_with_stdio(0);
+    cin.tie(0);
+    cout.tie(0);
+    string s;
+    cin >> s;
+    stack<int> tmp;
+    vector<pair<int, int>> v;
+    for(int i = 0; i < s.size(); i++){
+        if(s[i] == '(')
+            tmp.push(i);
+        else if(s[i] == ')') {
+            v.push_back({tmp.top(), i});
+            tmp.pop();
+        }
+    }
+    vector<string> ans;
+    for(int i = 1; i <  (1 << v.size()); i++){
+        fill(&check[0], &check[0] + 201, 0);
+        string temp = "";
+        for(int j = 0; j < v.size(); j++){
+            if(i & 1 << j){
+                check[v[j].second] = true;
+                check[v[j].first] = true;
+            }
+        }
+        for(int j = 0; j < s.size(); j++){
+            if(!check[j])
+                temp = temp + s[j];
+        }
+        ans.push_back(temp);
+    }
+    sort(ans.begin(), ans.end());
+    for(int i = 0; i < ans.size(); i++) {
+        if(i != 0 && ans[i] == ans[i - 1])
+            continue;
+        cout << ans[i] << endl;
+    }
