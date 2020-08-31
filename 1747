@@ -1,0 +1,33 @@
+#include <bits/stdc++.h>
+
+using namespace std;
+
+bool arr[1100001];
+int main(){
+    ios_base::sync_with_stdio(0);
+    cin.tie(0);
+    int N;
+    cin >> N;
+    arr[1] = true;
+    for(int i = 2; i * i <= 1100000; i++){
+        if(arr[i])
+            continue;
+        int j = 2;
+        while(i * j <= 1100000){
+            arr[i * j] = true;
+            j++;
+        }
+    }
+    while(1){
+        if(!arr[N]){
+            string s = to_string(N);
+            string ss(s);
+            reverse(s.begin(), s.end());
+            if(s == ss){
+                cout << N;
+                exit(0);
+            }
+        }
+        N++;
+    }
+}
