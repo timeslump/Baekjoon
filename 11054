@@ -1,0 +1,36 @@
+#include <bits/stdc++.h>
+
+using namespace std;
+
+int size[1001];
+int main() {
+    ios_base::sync_with_stdio(0);
+    cin.tie(0);
+    int N;
+    cin >> N;
+    vector<int> v(N);
+    vector<int> dp;
+    dp.push_back(10e9);
+    for (int i = 0; i < N; i++) {
+        cin >> v[i];
+        if (dp.back() < v[i]) {
+            dp.push_back(v[i]);
+        } else {
+            dp[lower_bound(dp.begin(), dp.end(), v[i]) - dp.begin()] = v[i];
+        }
+        size[(N - 1) - i] = dp.size();
+    }
+    reverse(v.begin(), v.end());
+    int xMax = 0;
+    dp.clear();
+    dp.push_back(10e9);
+    for (int i = 0; i < N; i++){
+        if (dp.back() < v[i]) {
+            dp.push_back(v[i]);
+        } else {
+            dp[lower_bound(dp.begin(), dp.end(), v[i]) - dp.begin()] = v[i];
+        }
+        xMax = max(xMax, (int) dp.size() + size[i] - 1);
+    }
+    cout << xMax;
+}
